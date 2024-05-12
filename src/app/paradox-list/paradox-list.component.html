@@ -1,0 +1,5 @@
+<ul class="list-unstyled components" >
+    <li *ngFor = "let paradox of paradoxes">
+        <a href="#" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a>
+    </li>
+</ul>
