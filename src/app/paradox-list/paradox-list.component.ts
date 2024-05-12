@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ParadoxInfo } from '../paradox-info';
 import { ParadoxService } from './paradox.service';
 
@@ -13,9 +13,8 @@ import { ParadoxService } from './paradox.service';
 })
 export class ParadoxListComponent {
   paradoxes: ParadoxInfo[];
-  constructor(private paradoxService: ParadoxService){
+  constructor(private paradoxService: ParadoxService){}
 
-  }
   ngOnInit() {
     this.getParadoxList();
   }

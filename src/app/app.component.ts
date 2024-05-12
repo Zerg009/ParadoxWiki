@@ -4,10 +4,10 @@ import { RouterOutlet } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import $ from 'jquery';
 import { ParadoxListComponent } from './paradox-list/paradox-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MainContentComponent } from './main-content/main-content.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,

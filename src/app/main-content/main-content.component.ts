@@ -20,11 +20,6 @@ export class MainContentComponent{
     this.paradoxService.paradoxChanged$().subscribe(paradox => {
       this.currentParadox = paradox;
     });
-    console.log("paradox"+this.currentParadox);
-    console.log("paradox");
-
-  }
-  setCurrentParadox(paradox:ParadoxInfo){
 
   }
 }

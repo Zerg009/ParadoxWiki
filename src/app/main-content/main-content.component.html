@@ -1,15 +1,17 @@
-<p>main-content works!</p>
 <!-- Page Content  -->
+<div *ngIf="currentParadox == undefined" id="content" class="p-4 p-md-5 pt-5">
+    <h2 class="m-0">Bine ați venit</h2>
+    <h5 class="mb-4">la Paradox Wiki!</h5>
+    <p class="w-50"> 
+      Explorați misterele existenței împreună cu noi. <br>
+      Pentru a începe călătoria dumneavoastră, începeți prin selectarea unui paradox din bara laterală. <br>
+      Fie că este vorba despre Paradoxul Bunicului, Paradoxul Fermi sau alt concept care te face să te gândești, fiecare oferă o perspectivă unică asupra naturii realității.
+      
+      Scufundați-vă în necunoscut și dezlegați paradoxurile care pun la îndoială înțelegerea noastră despre univers.
+    </p>
+
+</div>
 <div *ngIf="currentParadox !== undefined" id="content" class="p-4 p-md-5 pt-5">
-    <h2 class="mb-4">Sidebar #04</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-      laborum.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-      laborum.</p>
+  <h2 class="mb-4">{{currentParadox.title}}</h2>
+  
 </div>
