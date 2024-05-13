@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ParadoxInfo } from '../paradox-info';
 import { ParadoxService } from '../paradox-list/paradox.service';
 import { CommonModule } from '@angular/common';
+import { GameComponent } from '../game/game.component';
 
 @Component({
   selector: 'app-main-content',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    GameComponent
+  ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.css'
 })
