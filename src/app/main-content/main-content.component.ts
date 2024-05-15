@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ParadoxInfo } from '../paradox-info';
 import { ParadoxService } from '../paradox-list/paradox.service';
 import { CommonModule } from '@angular/common';
@@ -23,6 +23,7 @@ export class MainContentComponent{
   ngOnInit(){
     this.paradoxService.paradoxChanged$().subscribe(paradox => {
       this.currentParadox = paradox;
+      console.log("Main Content paradox changed " + this.currentParadox.title);
     });
 
   }

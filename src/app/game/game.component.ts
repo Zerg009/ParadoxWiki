@@ -1,26 +1,42 @@
-import { Component, Input, Renderer2 } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, ElementRef, Input, Renderer2, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { ParadoxInfo } from '../paradox-info';
-
+import { gamesComponentMap } from '../constants';
+import { ParadoxService } from '../paradox-list/paradox.service';
+import { ParadoxesModule } from './paradoxes/paradoxes.module';
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [],
+  imports: [ParadoxesModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
 export class GameComponent {
   @Input() currentParadox: ParadoxInfo;
+  @ViewChild('gameContainer', { read: ViewContainerRef }) gameContainer: ViewContainerRef;
+  @ViewChild('gameCanvas', { read: ElementRef<HTMLCanvasElement>}) gameCanvas: ElementRef<HTMLCanvasElement>;
 
-  constructor(private renderer: Renderer2){}
+  constructor(private paradoxService: ParadoxService){}
 
   ngOnInit(): void {
-    this.loadScript('../../assets/game.js');
+    this.paradoxService.paradoxChanged$().subscribe(paradox => {
+      this.loadMiniGame(paradox.tech_name);
+      console.log("subscribed");
+    });
   }
 
-  private loadScript(scriptUrl: string): void {
-    const script = this.renderer.createElement('script');
-    script.src = scriptUrl;
-    script.async = true;
-    this.renderer.appendChild(document.body, script);
+
+  ngAfterViewInit() {
+    console.log("Game component paradox changed: ngAfterViewInit " + this.currentParadox.tech_name);
+    this.loadMiniGame(this.currentParadox.tech_name);
   }
+  loadMiniGame(name: string) {
+    console.log("Mini game: " + name);
+    this.loadComponent(gamesComponentMap[name]);
+  }
+  private loadComponent(component: any) {
+    this.gameContainer.clear();
+    const componentRef: ComponentRef<typeof component> = this.gameContainer.createComponent(component);
+    componentRef.instance.gameCanvas = this.gameCanvas.nativeElement;
+  }
+  
 }
