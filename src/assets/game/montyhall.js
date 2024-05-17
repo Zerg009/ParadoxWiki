@@ -1,52 +1,56 @@
 (function () {
+    window.addEventListener('resize', resizeCanvas);
     // Get the canvas element
     const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    const audio_slider = document.getElementById('audio-slider');
     const CANVAS_WIDTH = canvas.width;
-    const CANVAS_HEIGHT = canvas.height = canvas.width;
-
-    // Game variables
-    let cameraX = 0; // Camera position
-
-
-    // Objects to render
-    const objects = [
-        
-        { x: 100, y: 100, width: 50, height: 50, color: 'red' },
-        { x: 200, y: 150, width: 30, height: 30, color: 'blue' },
-        // Add more objects as needed
-    ];
+    const CANVAS_HEIGHT = canvas.height;
+    const ctx = canvas.getContext('2d');
     const backgroundImage = new Image();
-    backgroundImage.src = "/assets/img/MontyHall/Montyhall_closed_doors.jpg";
-    
+    const backgroundAudio = new Audio();
 
-    backgroundImage.onload = function() {
-        // Draw the image starting from the top-left corner of the canvas
-        ctx.drawImage(backgroundImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      };
-    // Function to render the scene
-    // function render() {
-    //     // Clear the canvas
-    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    //     // Render objects based on the camera position
-    //     for (const obj of objects) {
-    //         const renderX = obj.x - cameraX;
-    //         ctx.fillStyle = obj.color;
-    //         ctx.fillRect(renderX, obj.y, obj.width, obj.height);
-    //     }
-
-    //     requestAnimationFrame(render);
-    // }
-
-    // Update camera position
-    function updateCamera(newCameraX) {
-        cameraX = newCameraX;
-    }
+    // Setup
+    setup();
 
     // Render the scene
     render();
+
+    function setup() {
+        backgroundImage.onload = function () {
+            // Draw the image onto the canvas with adjusted dimensions
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        };
+        backgroundImage.src = "/assets/img/MontyHall/Montyh.jpg";
+        resizeCanvas();
+
+        backgroundAudio.autoplay = false;
+        backgroundAudio.loop = false;
+        backgroundAudio.src = "/assets/audio/MontyHall_ro.mp3";
+        backgroundAudio.play();
+
+    }
+
+    // Function to render the scene
+    function render() {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        requestAnimationFrame(render);
+    }
+
+    function pauseAudio(){
+        backgroundAudio.pause();
+    }
+
+    function resizeCanvas() {
+        const aspectRatio = 16 / 9; // Example aspect ratio (16:9)
+        const containerWidth = canvas.offsetWidth;
+        const containerHeight = containerWidth / aspectRatio; // Calculate height based on aspect ratio
+
+        // Set canvas dimensions
+        canvas.width = containerWidth;
+        canvas.height = containerHeight;
+
+        audio_slider.style.width =  canvas.width-10 + 'px';
+        // Redraw content if needed
+        // (This is where you would redraw any content on the canvas)
+    }
 })();
-
-
-
