@@ -13,7 +13,7 @@ export class MontyHallComponent {
 
   ctx?: CanvasRenderingContext2D;
   backgroundAudio?: HTMLAudioElement;
-
+  animationFrameId: number | null = null;
   constructor(private gameService: GameService){}
   
   ngOnInit() {
@@ -38,14 +38,16 @@ export class MontyHallComponent {
   }
   render(canvas: HTMLCanvasElement, backgroundImage: HTMLImageElement) {
     const ctx = canvas.getContext('2d');
-    function render() {
+    const render = () => {
       ctx?.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-      requestAnimationFrame(render);
+      this.animationFrameId = requestAnimationFrame(render);
     }
     render();
   }
-
-
-
-
+  stopAnimation() {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  }
 }

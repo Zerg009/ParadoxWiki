@@ -18,7 +18,8 @@ export class GameComponent {
 
   @ViewChild('gameContainer', { read: ViewContainerRef }) gameContainer: ViewContainerRef;
   @ViewChild('gameCanvas', { read: ElementRef<HTMLCanvasElement> }) gameCanvas: ElementRef<HTMLCanvasElement>;
-
+  @ViewChild('ui_player') uiPlayerComponent: UiPlayerComponent;
+  private currentComponentRef: ComponentRef<any>;
   constructor(private paradoxService: ParadoxService) { }
 
   ngOnInit(): void {
@@ -38,16 +39,22 @@ export class GameComponent {
     if (canvasCtx) {
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw a rectangle to see the cleared area
-      canvasCtx.fillStyle = 'blue';
-      canvasCtx.fillRect(0, 0, 50, 50);
-
+      if (this.currentComponentRef) {
+        const instance = this.currentComponentRef.instance as any;
+        if (instance.stopAnimation) {
+          instance.stopAnimation();
+        }
+        this.gameContainer.clear();
+      }
+      
+      this.uiPlayerComponent.resetUI();
     }
     this.loadComponent(gamesComponentMap[name]);
   }
   private loadComponent(component: any) {
     this.gameContainer.clear();
     const componentRef: ComponentRef<typeof component> = this.gameContainer.createComponent(component);
+    this.currentComponentRef = componentRef;
     componentRef.instance.gameCanvas = this.gameCanvas.nativeElement;
   }
 }

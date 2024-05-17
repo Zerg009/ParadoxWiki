@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { ButtonPlayComponent } from '../button-play.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { CommonModule } from '@angular/common';
@@ -13,18 +13,28 @@ import { FormsModule } from '@angular/forms';
 })
 export class UiPlayerComponent {
   @Input() gameCanvas: HTMLCanvasElement;
+  @Input() currentTime: number;
+  
   @ViewChild('buttonPlay') buttonPlay: ButtonPlayComponent;
 
   backgroundAudio: HTMLAudioElement;
   public triggerButtonPlay: 'start' | 'stop';
   public audioDuration: number;
-  currentTime: number;
-  audioSliderValue: number = 0;
+
+  constructor() {}
 
   onStartButtonPlay() {this.backgroundAudio.play()}
   onPauseButtonPlay() {this.backgroundAudio.pause()}
   onDoneButtonPlay() {}
 
+  public setAudioSliderValue(value: number) {
+    this.currentTime = value;
+  }
+  public resetUI(){
+    this.buttonPlay.pause();
+    this.setAudioSliderValue(0);
+    this.backgroundAudio.currentTime = 0;
+  }
   ngAfterViewInit() {
     const audio_slider = document.getElementById('audio-slider') as HTMLInputElement;
     const canvasElement = this.gameCanvas;
@@ -35,10 +45,12 @@ export class UiPlayerComponent {
     this.backgroundAudio.autoplay = false;
     this.backgroundAudio.loop = false;
     this.backgroundAudio.src = "/assets/audio/MontyHall_ro.mp3";
+
     this.backgroundAudio.addEventListener('loadedmetadata', () => {
       this.audioDuration = Math.floor(this.backgroundAudio.duration);  // seconds
       console.log('Audio duration:', this.audioDuration);
     });
+
     this.backgroundAudio.addEventListener('timeupdate', () => {
       this.currentTime = this.backgroundAudio.currentTime;
       if(this.currentTime >= this.audioDuration)
