@@ -1,15 +1,17 @@
-import { Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { ParadoxInfo } from '../paradox-info';
 import { gamesComponentMap } from '../constants';
 import { ParadoxService } from '../paradox-list/paradox.service';
 import { ParadoxesModule } from './paradoxes/paradoxes.module';
 
 import { UiPlayerComponent } from './ui-player/ui-player.component';
+import { VideoplayerComponent } from '../videoplayer/videoplayer.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [ParadoxesModule, UiPlayerComponent],
+  imports: [ParadoxesModule, UiPlayerComponent, VideoplayerComponent, CommonModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
@@ -20,7 +22,8 @@ export class GameComponent {
   @ViewChild('gameCanvas', { read: ElementRef<HTMLCanvasElement> }) gameCanvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('ui_player') uiPlayerComponent: UiPlayerComponent;
   private currentComponentRef: ComponentRef<any>;
-  constructor(private paradoxService: ParadoxService) { }
+  currentState: string = "video";
+  constructor(private paradoxService: ParadoxService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.paradoxService.paradoxChanged$().subscribe(paradox => {
@@ -34,8 +37,11 @@ export class GameComponent {
   }
   loadMiniGame(name: string) {
     console.log("Mini game: " + name);
+    this.cdr.detectChanges();
     const canvas = this.gameCanvas.nativeElement;
     const canvasCtx = canvas.getContext('2d');
+    window.addEventListener('resize', () => this.resizeCanvas(canvas));
+    this.resizeCanvas(canvas);
     if (canvasCtx) {
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -46,8 +52,8 @@ export class GameComponent {
         }
         this.gameContainer.clear();
       }
-      
-      this.uiPlayerComponent.resetUI();
+
+      //this.uiPlayerComponent.resetUI();
     }
     this.loadComponent(gamesComponentMap[name]);
   }
@@ -56,5 +62,28 @@ export class GameComponent {
     const componentRef: ComponentRef<typeof component> = this.gameContainer.createComponent(component);
     this.currentComponentRef = componentRef;
     componentRef.instance.gameCanvas = this.gameCanvas.nativeElement;
+  }
+  changeState()
+  {
+    if(this.currentState === 'video')
+    {
+      this.currentState = 'game';
+      this.loadMiniGame(this.currentParadox.tech_name);
+    }
+    else{
+      this.currentState = 'video';
+    }
+  }
+  resizeCanvas(canvas: HTMLCanvasElement) {
+    const aspectRatio = 16 / 9; // Example aspect ratio (16:9)
+    const containerWidth = canvas.offsetWidth;
+    const containerHeight = containerWidth / aspectRatio; // Calculate height based on aspect ratio
+
+    // Set canvas dimensions
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
+    
+    // Redraw content if needed
+    // (This is where you would redraw any content on the canvas)
   }
 }

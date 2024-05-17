@@ -3,11 +3,12 @@ import { ButtonPlayComponent } from '../button-play.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { VideoplayerComponent } from '../../videoplayer/videoplayer.component';
 
 @Component({
   selector: 'app-ui-player',
   standalone: true,
-  imports: [ ButtonPlayComponent, MatSliderModule, CommonModule, FormsModule],
+  imports: [ ButtonPlayComponent, MatSliderModule, CommonModule, FormsModule, VideoplayerComponent],
   templateUrl: './ui-player.component.html',
   styleUrl: './ui-player.component.css'
 })
