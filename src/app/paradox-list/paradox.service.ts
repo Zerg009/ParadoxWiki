@@ -18,6 +18,7 @@ export class ParadoxService {
   }
   setCurrentParadox(paradox: ParadoxInfo){
     this.currentParadox = paradox;
+    
     this.paradoxChangedSource.next(paradox);
   }
   paradoxChanged$(): Observable<ParadoxInfo> {

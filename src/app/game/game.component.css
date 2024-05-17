@@ -1,0 +1,9 @@
+#gameCanvas{
+    border: solid;
+    width: 100%;
+    max-width: 800px;
+    min-width: 400px;
+}
+.canvas-width{
+    width: 200px;
+}

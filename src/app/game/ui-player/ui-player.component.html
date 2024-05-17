@@ -1,0 +1,10 @@
+<div class="audio-slider">
+    <mat-slider min="1" [max]="audioDuration" step="1" id="audio-slider" style="margin:0 0 0 5px;" (input)="onSliderChange($event)">
+        <input matSliderThumb [(ngModel)]="currentTime">
+    </mat-slider>
+</div>
+<div class="button-play">
+    <yt-button-play #buttonPlay [duration]="audioDuration" [size]="50" (onStart)="onStartButtonPlay()" (onPause)="onPauseButtonPlay()"
+        (onDone)="onDoneButtonPlay()"></yt-button-play>
+</div>
+

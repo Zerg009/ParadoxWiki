@@ -1,0 +1,11 @@
+<ng-container *ngIf="currentState === 'game'"  >
+    <canvas id="gameCanvas" #gameCanvas></canvas>
+    <ng-container #gameContainer ></ng-container>
+</ng-container>
+<ng-container *ngIf="currentState === 'video'">
+    <app-videoplayer></app-videoplayer>
+</ng-container>
+
+<button (click)="changeState()">Play Game!</button>
+<!-- <app-ui-player [gameCanvas]="gameCanvas" #ui_player></app-ui-player> -->
+
