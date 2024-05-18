@@ -34,24 +34,25 @@ export class GameComponent {
   ngAfterViewInit() {
     console.log("Game component paradox changed: ngAfterViewInit " + this.currentParadox.tech_name);
     this.loadMiniGame(this.currentParadox.tech_name);
+    window.addEventListener('resize', () => this.resizeCanvas(this.gameCanvas.nativeElement));
+    this.resizeCanvas(this.gameCanvas.nativeElement);
   }
   loadMiniGame(name: string) {
     console.log("Mini game: " + name);
     this.cdr.detectChanges();
     const canvas = this.gameCanvas.nativeElement;
     const canvasCtx = canvas.getContext('2d');
-    window.addEventListener('resize', () => this.resizeCanvas(canvas));
-    this.resizeCanvas(canvas);
+
     if (canvasCtx) {
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (this.currentComponentRef) {
-        const instance = this.currentComponentRef.instance as any;
-        if (instance.stopAnimation) {
-          instance.stopAnimation();
-        }
-        this.gameContainer.clear();
-      }
+      // if (this.currentComponentRef) {
+      //   const instance = this.currentComponentRef.instance as any;
+      //   if (instance.stopAnimation) {
+      //     instance.stopAnimation();
+      //   }
+      //   this.gameContainer.clear();
+      // }
 
       //this.uiPlayerComponent.resetUI();
     }
@@ -60,15 +61,15 @@ export class GameComponent {
   private loadComponent(component: any) {
     this.gameContainer.clear();
     const componentRef: ComponentRef<typeof component> = this.gameContainer.createComponent(component);
-    this.currentComponentRef = componentRef;
+    // this.currentComponentRef = componentRef;
     componentRef.instance.gameCanvas = this.gameCanvas.nativeElement;
+    this.cdr.detectChanges();
   }
   changeState()
   {
     if(this.currentState === 'video')
     {
       this.currentState = 'game';
-      this.loadMiniGame(this.currentParadox.tech_name);
     }
     else{
       this.currentState = 'video';
@@ -78,7 +79,7 @@ export class GameComponent {
     const aspectRatio = 16 / 9; // Example aspect ratio (16:9)
     const containerWidth = canvas.offsetWidth;
     const containerHeight = containerWidth / aspectRatio; // Calculate height based on aspect ratio
-
+    console.log("resizeCanvas")
     // Set canvas dimensions
     canvas.width = containerWidth;
     canvas.height = containerHeight;

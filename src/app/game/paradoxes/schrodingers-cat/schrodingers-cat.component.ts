@@ -16,7 +16,7 @@ export class SchrodingersCatComponent {
     // this.gameService.loadScript('../../assets/game/schrodingers_cat.js.js');
   }
   ngAfterViewInit() {
-    this.gameService.loadScript('../../assets/game/schrodingers_cat.js');
+    //this.gameService.loadScript('../../assets/game/schrodingers_cat.js');
   }
 
 }
