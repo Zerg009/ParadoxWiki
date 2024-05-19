@@ -34,8 +34,8 @@ export class GameComponent {
   ngAfterViewInit() {
     console.log("Game component paradox changed: ngAfterViewInit " + this.currentParadox.tech_name);
     this.loadMiniGame(this.currentParadox.tech_name);
-    window.addEventListener('resize', () => this.resizeCanvas(this.gameCanvas.nativeElement));
-    this.resizeCanvas(this.gameCanvas.nativeElement);
+    //window.addEventListener('resize', () => this.resizeCanvas(this.gameCanvas.nativeElement));
+    //this.resizeCanvas(this.gameCanvas.nativeElement);
   }
   loadMiniGame(name: string) {
     console.log("Mini game: " + name);
@@ -76,15 +76,31 @@ export class GameComponent {
     }
   }
   resizeCanvas(canvas: HTMLCanvasElement) {
-    const aspectRatio = 16 / 9; // Example aspect ratio (16:9)
-    const containerWidth = canvas.offsetWidth;
-    const containerHeight = containerWidth / aspectRatio; // Calculate height based on aspect ratio
-    console.log("resizeCanvas")
-    // Set canvas dimensions
-    canvas.width = containerWidth;
-    canvas.height = containerHeight;
-    
-    // Redraw content if needed
-    // (This is where you would redraw any content on the canvas)
+    // const aspectRatio = 16 / 9; // Example aspect ratio (16:9)
+    // const containerWidth = canvas.offsetWidth;
+    // const containerHeight = containerWidth / aspectRatio; // Calculate height based on aspect ratio
+    // console.log("resizeCanvas")
+    // // Set canvas dimensions
+    // canvas.width = containerWidth;
+    // canvas.height = containerHeight;
+    const width = window.screen.width;
+
+    // Default dimensions
+    let canvasWidth = 640;
+    let canvasHeight = 360;
+
+    if (width >= 3840) { // 4K resolution
+        canvas.width = 1280;
+        canvas.height = 720;
+    } else if (width >= 2560) { // 2K resolution
+        canvas.width = 960;
+        canvas.height = 540;
+    } else if (width >= 1920) { // Full HD resolution
+        canvas.width = 640;
+        canvas.height = 360;
+    } else if (width >= 1366) { // HD resolution
+        canvas.width = 340;
+        canvas.height = 200;
+    }
   }
 }

@@ -1,5 +1,5 @@
 (function () {
-    window.addEventListener('resize', resizeCanvas);
+    //window.addEventListener('resize', resizeCanvas);
     // Get the canvas element
     const canvas = document.getElementById('gameCanvas');
     const audio_slider = document.getElementById('audio-slider');
