@@ -18,20 +18,23 @@
     <div class="game-container container-fluid">
       <div class="row">
         <div class="col-9">
-        <ng-container *ngIf="currentState === 'game'"  >
+          <ng-container *ngIf="currentState === 'game'">
             <app-game [currentParadox]="currentParadox"></app-game>
-        </ng-container>
-        <ng-container *ngIf="currentState === 'video'">
+          </ng-container>
+          <ng-container *ngIf="currentState === 'video'">
             <app-videoplayer></app-videoplayer>
-        </ng-container>
-        <button (click)="changeState()">Play Game!</button>
+          </ng-container>
+          <button (click)="changeState()">Play Game!</button>
         </div>
         <div class="col-3">
           <h2>Description</h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae necessitatibus qui reprehenderit!
             Incidunt molestias nisi, sunt nemo, aliquam natus vero consectetur saepe in asperiores iure tempore dicta
             eveniet pariatur est? Facere, consequatur minus illo exercitationem mollitia est natus voluptates, incidunt
-            eos, voluptatibus dicta. Nam tenetur dolor ex quasi est ipsa.</p>
+            eos, voluptatibus dicta. Nam tenetur dolor ex quasi est ipsa.
+          </p> 
         </div>
       </div>
     </div>
+  </div>
+</div>
