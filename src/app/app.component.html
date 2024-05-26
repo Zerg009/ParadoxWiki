@@ -4,14 +4,29 @@
       <a class="navbar-brand" href="#">Paradox <span>Wiki</span></a>
     </div>
     <div class="col d-flex justify-content-end">
-      <div class="social-media">
+      <div class="registration-form d-flex justify-content-center align-items-center">
+        <ng-container *ngIf="isAuthenticated()">
+          <a class="mx-4" routerLink="cart">My Cart</a>
+          <button (click)="logout()" class="mx-4">Logout</button>
+        </ng-container>
+        <ng-container *ngIf="!isAuthenticated()">
+            <!-- <a class="mx-4"routerLink="login">Login</a>
+            <a class="mx-4"routerLink="register">Register</a> -->
+            <a mat-stroked-button  (click)="showLoginForm()" class="me-3">Login</a>
+            <a mat-raised-button  (click)="showRegisterForm()">Register</a>
+        </ng-container>
+        
+      </div>
+      
+      <!-- <div class="social-media">
         <p class="mb-0 d-flex">
           <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="facebook" /></a>
           <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="twitter" /></a>
           <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="instagram" /></a>
         </p>
-      </div>
+      </div> -->
     </div>
+
   </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -66,6 +81,11 @@
       
   </div>
 </main>
+
+<!-- Conditional Login Form -->
+<ng-container *ngIf="showLogin">
+  <app-login></app-login>
+</ng-container>
 
 <footer>
 
