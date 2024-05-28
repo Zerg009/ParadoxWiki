@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginForm, RegisterForm } from '../types/Auth';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material/dialog';
+import { AngularDialogComponent } from './angular-dialog/angular-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -9,74 +14,59 @@ export class AuthService {
 
   isAuthenticated: boolean = false;
   isLoading: boolean = false;
-  passwordMatched: boolean = true;
-  constructor(private router: Router) { }
+  passwordMatched: boolean = false;
+  _isShowingLogin: boolean = false;
+  _isShowingRegister: boolean = false;
+  private baseURL = "http://localhost:8080/api/v1/auth";
 
-  login(form: LoginForm) {
-    // // ignore multiple clicking
-    // if (this.isLoading) return;
-
-    // this.isLoading = true;
-    // const auth = getAuth();
-
-    // signInWithEmailAndPassword(auth, form.email, form.password)
-    //   .then((userCredential) => {
-    //     // Signed in 
-    //     const user = userCredential.user;
-    //     alert('Logged In!');
-    //     this.isAuthenticated = true;
-    //     this.router.navigate(['']);
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     alert(errorMessage);
-    //     this.isAuthenticated = false;
-
-    //   })
-    //   .finally(() => {
-    //     this.isLoading = false;
-    //   })
+  // Getter for isShowingLogin
+  get isShowingLogin(): boolean {
+    return this._isShowingLogin;
   }
 
-  register(form: RegisterForm) {
-    // ignore multiple clicking
-    // if (this.isLoading) return;
-
-    // this.isLoading = true;
-
-    // if (form.password != form.confirmPassword) {
-    //   this.passwordMatched = false;
-    //   alert("Passwords does not match!")
-    //   this.isLoading = false;
-    //   return;
-    // }
-    // const auth = getAuth();
-    // createUserWithEmailAndPassword(auth, form.email, form.password)
-    //   .then((userCredential) => {
-    //     // Signed up 
-    //     const user = userCredential.user;
-    //     alert(`Email ${form.email} was successfully registered!`);
-    //     this.isAuthenticated = true;
-
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     alert("Something went wrong!");
-    //     this.isAuthenticated = false;
-
-    //   })
-    //   .finally(() => { this.isLoading = false; })
+  // Setter for isShowingLogin
+  set isShowingLogin(value: boolean) {
+    this._isShowingLogin = value;
   }
 
+  // Getter for isShowingRegister
+  get isShowingRegister(): boolean {
+    return this._isShowingRegister;
+  }
+
+  // Setter for isShowingRegister
+  set isShowingRegister(value: boolean) {
+    this._isShowingRegister = value;
+  }
+
+  constructor(private httpClient: HttpClient, private cookieService: CookieService, private dialog: MatDialog) { }
+
+  login(form: LoginForm): Observable<any> {
+    return this.httpClient.post(`${this.baseURL}/authenticate`, form);
+  }
+
+  register(form: RegisterForm): Observable<any> {
+    return this.httpClient.post(`${this.baseURL}/register`, form);
+
+  }
+  verifyToken(): Observable<any> {
+    return this.httpClient.post(`${this.baseURL}/verify`, {"token": this.getToken()});
+  }
   logout() {
-    // const auth = getAuth();
-    // signOut(auth).then(() => {
-    //     this.router.navigate(['login']);
-    //     this.isAuthenticated = false;
-    // }).catch((error) => {
-    //   // An error happened.
-    // });
+    // Clear the token from the cookie
+    this.cookieService.delete('jwtToken');
+  }
+  saveToken(token: string): void {
+    this.cookieService.set('jwtToken', token, 1); // Expires in 1 day
+  }
+
+  getToken(): string {
+    return this.cookieService.get('jwtToken');
+  }
+  showError(message: string, title: string): void {
+    this.dialog.open(AngularDialogComponent, {
+      width: '500px',
+      data: { message, title }
+    });
   }
 }

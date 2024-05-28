@@ -6,8 +6,7 @@
     <div class="col d-flex justify-content-end">
       <div class="registration-form d-flex justify-content-center align-items-center">
         <ng-container *ngIf="isAuthenticated()">
-          <a class="mx-4" routerLink="cart">My Cart</a>
-          <button (click)="logout()" class="mx-4">Logout</button>
+          <button mat-button (click)="logout()" class="mx-4">Logout</button>
         </ng-container>
         <ng-container *ngIf="!isAuthenticated()">
             <!-- <a class="mx-4"routerLink="login">Login</a>
@@ -83,8 +82,12 @@
 </main>
 
 <!-- Conditional Login Form -->
-<ng-container *ngIf="showLogin">
+<ng-container *ngIf="isShowingLogin()">
   <app-login></app-login>
+</ng-container>
+<!-- Conditional Login Form -->
+<ng-container *ngIf="isShowingRegister()">
+  <app-register></app-register>
 </ng-container>
 
 <footer>

@@ -7,9 +7,11 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ParadoxListComponent } from './paradox-list/paradox-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MainContentComponent } from './main-content/main-content.component';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -24,44 +26,66 @@ import { AuthModule } from './auth/auth.module';
     MainContentComponent,
     AuthModule
   ],
-  providers:[],
+  providers: [
+
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
 
-
-  facebook = faFacebook;
-  instagram = faInstagram;
-  twitter = faTwitter;
+  // facebook = faFacebook;
+  // instagram = faInstagram;
+  // twitter = faTwitter;
   title = 'ParadoxWiki';
   collapse: boolean = false;
-  showLogin: boolean = false;
-  showRegister: boolean = false;
+  // showLogin: boolean = false;
+  // showRegister: boolean = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService){
+  constructor(private modalService: NgbModal, private authService: AuthService) {
 
   }
 
-  public open(modal: any): void {
+  public open(modal: any, authService: AuthService): void {
     this.modalService.open(modal);
   }
 
-  ngOnInit(){
-    
+  ngOnInit() {
+    this.authService.verifyToken().subscribe({
+      next: response => {
+        this.authService.isAuthenticated = true;
+      },
+      error: error => {
+        this.authService.logout();
+        console.log("Not logged in!");
+      },
+      complete: () => {
+        console.log("Cookie token:" + this.authService.getToken());
+
+      }
+    });
+
+
   }
-  
+
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
   }
-  
+
   logout() {
     this.authService.logout();
+    this.authService.isAuthenticated = false;
   }
   showRegisterForm() {
-    this.showRegister = true;
+    this.authService.isShowingRegister = true;
   }
   showLoginForm() {
-    this.showLogin = true;
+    this.authService.isShowingLogin = true;
+  }
+  isShowingLogin(): boolean {
+    return this.authService.isShowingLogin;
+  }
+  isShowingRegister(): boolean {
+    return this.authService.isShowingRegister;
   }
 }

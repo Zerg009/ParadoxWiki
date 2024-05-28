@@ -3,21 +3,26 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
+import { AngularDialogComponent } from './angular-dialog/angular-dialog.component';
 
 
 
 @NgModule({
   declarations: [    
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    AngularDialogComponent
   ],
   exports: [
     LoginComponent,
     RegisterComponent
   ]
 })
-export class AuthModule { }
+export class AuthModule { 
+  
+}

@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+
   form: RegisterForm = {
     email: '',
     password: '',
@@ -18,10 +19,30 @@ export class RegisterComponent {
 
 constructor (private authService: AuthService){}
   submit(){
-    this.authService.register(this.form);
+    if (this.form.password != this.form.confirmPassword) {
+        this.authService.showError("Passwords dont match!", "Different Passwords");
+      return;
+    }
+
+
+    this.authService.register(this.form).subscribe({
+      next: goodResponse => {
+        console.log('Authenticate response:', goodResponse);
+        this.authService.isShowingRegister = false;
+      },
+      error: errorResponse => {
+        console.log('Authenticate response:', errorResponse);
+
+        this.authService.showError(errorResponse.error.message, "Register Error");
+      }
+    });;
+
   }
   isLoading()
   {
     return this.authService.isLoading;
+  }
+  closeForm() {
+    this.authService.isShowingRegister = false;
   }
 }
