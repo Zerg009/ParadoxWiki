@@ -3,6 +3,10 @@ import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/cor
 import { ParadoxInfo } from '../types/paradox-info';
 import { ParadoxService } from '../services/paradox.service';
 import { UserService } from '../services/user.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-paradox-list',
@@ -13,17 +17,57 @@ import { UserService } from '../services/user.service';
   styleUrl: './paradox-list.component.css'
 })
 export class ParadoxListComponent {
-
-
   paradoxes: ParadoxInfo[];
-  favoriteParadoxes: ParadoxInfo[];
-  constructor(private paradoxService: ParadoxService, private userService: UserService, private cdr: ChangeDetectorRef) { }
+  favoriteParadoxes: ParadoxInfo[] = [];
+  // Subscription to logout events
+  private logoutSubscription: Subscription;
+  private subscriptions: Subscription = new Subscription();
+  constructor(
+    private paradoxService: ParadoxService,
+    private userService: UserService,
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    console.log('ngOnInit triggered');
+    this.initData();
+    this.manageSubscriptions();
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions to avoid memory leaks
+    this.subscriptions.unsubscribe();
+  }
+  manageSubscriptions() {
+    // Subscribe to logout events
+    this.subscriptions.add(
+      this.authService.logout$.subscribe(() => {
+        this.resetUI();
+      })
+    );
+
+
+    // Subscribe to login events
+    this.subscriptions.add(
+      this.authService.login$.subscribe(() => {
+        // Simulate page refresh by navigating to the current route
+        this.initData();
+      })
+    );
+    // Subscribe to verify events
+    this.subscriptions.add(
+      this.authService.verify$.subscribe(() => {
+        // this.getFavoriteParadoxes();
+        this.initData();
+      })
+    );
+  }
+  initData() {
     this.getParadoxList();
     this.getFavoriteParadoxes();
   }
-
   getParadoxList() {
     return this.paradoxService.getParadoxList().subscribe(data => {
       this.paradoxes = data;
@@ -35,6 +79,8 @@ export class ParadoxListComponent {
   }
 
   addToFavorite(paradox: ParadoxInfo) {
+    if (!this.authService.isAuthenticated)
+      return;
     if (this.isFavorite(paradox)) {
       // this.favoriteParadoxes = this.favoriteParadoxes.filter(fav => fav.paradox_id !== paradox.paradox_id);
       this.removeFavorite(paradox);
@@ -56,7 +102,7 @@ export class ParadoxListComponent {
       });
     }
     //this.getFavoriteParadoxes();
-    
+
     this.detectChanges();
   }
 
@@ -87,6 +133,8 @@ export class ParadoxListComponent {
   }
 
   getFavoriteParadoxes() {
+    if(!this.authService.isAuthenticated)
+      return;
     this.userService.getFavoriteParadoxes().subscribe({
       next: (favoriteParadoxes: any) => {
         console.log('Favorite paradoxes:', favoriteParadoxes);
@@ -99,6 +147,7 @@ export class ParadoxListComponent {
       },
       complete: () => {
         console.log('Get favorite paradoxes request completed.');
+        this.detectChanges();
       }
     });
   }
@@ -111,5 +160,11 @@ export class ParadoxListComponent {
   // Method to trigger change detection
   detectChanges() {
     this.cdr.detectChanges();
+  }
+
+  public resetUI() {
+    this.favoriteParadoxes = []; // Reset favorite paradoxes
+    // Reset any other UI state as needed
+    this.detectChanges(); // Trigger change detection after resetting UI
   }
 }

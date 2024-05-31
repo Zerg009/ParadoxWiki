@@ -43,9 +43,7 @@ export class AppComponent {
   // showLogin: boolean = false;
   // showRegister: boolean = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService) {
-
-  }
+  constructor(private modalService: NgbModal, private authService: AuthService) {}
 
   public open(modal: any, authService: AuthService): void {
     this.modalService.open(modal);
@@ -54,22 +52,10 @@ export class AppComponent {
   ngOnInit() {
     this.verifyToken();
   }
+
   verifyToken()
   {
-    this.authService.verifyToken().subscribe({
-      next: response => {
-        this.authService.isAuthenticated = true;
-        console.log("Cookie token:" + this.authService.getToken());
-
-      },
-      error: error => {
-        this.authService.logout();
-        console.log("Not logged in!");
-      },
-      complete: () => {
-
-      }
-    });
+    this.authService.verifyToken();
   }
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
@@ -77,7 +63,6 @@ export class AppComponent {
 
   logout() {
     this.authService.logout();
-    this.authService.isAuthenticated = false;
   }
   showRegisterForm() {
     this.authService.isShowingRegister = true;

@@ -39,10 +39,10 @@ export class VideoplayerComponent {
     };
   }
   ngOnInit(){
+    this.languageSelected = "ro";
    
   }
   ngAfterViewInit(){
-    this.languageSelected = "ro";
     this.setVideoSrc();
   }
 

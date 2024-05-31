@@ -19,20 +19,7 @@ export class LoginComponent {
   
   constructor(private authService : AuthService){}
   submit() {
-    this.authService.login(this.form).subscribe({
-      next: response => {
-        this.authService.isAuthenticated = true;
-        this.authService.isShowingLogin = false;
-        const token = response.token; // Adjust according to your API response
-        console.log('Logged in!' + token);
-        this.authService.saveToken(token);
-      },
-      error: error => {
-        console.error('Authenticate error:', error);
-        this.authService.showError("Invalid email or password!", "Authentication Error");
-      }
-    });
-
+    this.authService.login(this.form);
   }
 
   isLoading()

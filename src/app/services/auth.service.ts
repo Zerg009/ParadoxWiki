@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { LoginForm, RegisterForm } from '../types/Auth';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material/dialog';
 import { AngularDialogComponent } from '../auth/angular-dialog/angular-dialog.component';
 import * as jwt_decode from 'jwt-decode';
+import { ParadoxListComponent } from '../paradox-list/paradox-list.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +18,16 @@ export class AuthService {
   _isShowingLogin: boolean = false;
   _isShowingRegister: boolean = false;
   private baseURL = "http://localhost:8080/api/v1/auth";
+
+  // Private subjects for login and logout events
+  private loginSubject = new Subject<void>();
+  private logoutSubject = new Subject<void>();
+  private verifySubject = new Subject<void>();
+
+  // Public observables for login and logout events
+  public login$: Observable<void> = this.loginSubject.asObservable();
+  public logout$: Observable<void> = this.logoutSubject.asObservable();
+  public verify$: Observable<void> = this.verifySubject.asObservable();
 
   // Getter for isShowingLogin
   get isShowingLogin(): boolean {
@@ -37,24 +48,57 @@ export class AuthService {
   set isShowingRegister(value: boolean) {
     this._isShowingRegister = value;
   }
-
+  
   constructor(private httpClient: HttpClient, private cookieService: CookieService, private dialog: MatDialog) { }
 
-  login(form: LoginForm): Observable<any> {
-    return this.httpClient.post(`${this.baseURL}/authenticate`, form);
+  login(form: LoginForm) {
+    // Notify subscribers about login event
+    
+    this.httpClient.post(`${this.baseURL}/authenticate`, form).subscribe({
+      next: (response: any) => {
+        this.isAuthenticated = true;
+        this.isShowingLogin = false;
+        const token = response.token; // Adjust according to your API response
+        console.log('Logged in!', token);
+        this.saveToken(token);
+        this.loginSubject.next(); // Notify subscribers about login event
+      },
+      error: (error: any) => {
+        console.error('Authentication error:', error);
+        this.showError('Invalid email or password!', 'Authentication Error');
+      }
+    });
   }
 
   register(form: RegisterForm): Observable<any> {
     return this.httpClient.post(`${this.baseURL}/register`, form);
 
   }
-  verifyToken(): Observable<any> {
+  verifyToken() {
     const token = this.getToken();
-    return this.httpClient.post(`${this.baseURL}/verify`, {"token": this.getToken()});
+    this.httpClient.post(`${this.baseURL}/verify`, {"token": this.getToken()}).subscribe({
+      next: (response:any) => {
+        if(response.success)
+          this.isAuthenticated = true;
+          console.log("Cookie token:" + this.getToken());
+          this.verifySubject.next();
+      },
+      error: error => {
+        this.logout();
+        console.log("Not logged in!");
+      },
+      complete: () => {
+
+      }
+    });
   }
   logout() {
     // Clear the token from the cookie
     this.cookieService.delete('jwtToken');
+    this.isAuthenticated = false;
+    // Notify subscribers about logout
+    this.logoutSubject.next();
+    
   }
   saveToken(token: string): void {
     this.cookieService.set('jwtToken', token, 1); // Expires in 1 day
@@ -63,6 +107,8 @@ export class AuthService {
   getToken(): string {
     return this.cookieService.get('jwtToken');
   }
+
+  // used externally to show errors
   showError(message: string, title: string): void {
     this.dialog.open(AngularDialogComponent, {
       width: '500px',
