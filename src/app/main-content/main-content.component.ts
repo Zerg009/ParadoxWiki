@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ParadoxInfo } from '../paradox-info';
-import { ParadoxService } from '../paradox-list/paradox.service';
+import { ParadoxInfo } from '../types/paradox-info';
+import { ParadoxService } from '../services/paradox.service';
 import { CommonModule } from '@angular/common';
 import { GameComponent } from '../game/game.component';
 import { VideoplayerComponent } from '../videoplayer/videoplayer.component';

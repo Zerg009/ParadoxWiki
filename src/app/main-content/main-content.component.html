@@ -20,7 +20,7 @@
             <app-game [currentParadox]="currentParadox"></app-game>
           </ng-container>
           <ng-container *ngIf="currentState === 'video'">
-            <app-videoplayer></app-videoplayer>
+            <app-videoplayer [videoName] = "currentParadox.tech_name"></app-videoplayer>
           </ng-container>
           <button (click)="changeState()" class="btn btn-primary mt-3">Play Game!</button>
         </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginForm } from '../../types/Auth';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { AngularDialogComponent } from '../angular-dialog/angular-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -21,10 +21,10 @@ export class LoginComponent {
   submit() {
     this.authService.login(this.form).subscribe({
       next: response => {
-        console.log('Logged in!');
         this.authService.isAuthenticated = true;
         this.authService.isShowingLogin = false;
         const token = response.token; // Adjust according to your API response
+        console.log('Logged in!' + token);
         this.authService.saveToken(token);
       },
       error: error => {

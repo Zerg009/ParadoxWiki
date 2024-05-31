@@ -1,5 +1,8 @@
-<ul class="list-unstyled components" >
-    <li *ngFor = "let paradox of paradoxes">
+<ul class="list-unstyled components">
+    <li *ngFor="let paradox of paradoxes">
         <a href="#" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a>
+        <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(paradox), 'fa-solid': isFavorite(paradox)}"
+            (click)="addToFavorite(paradox)">
+        </i>
     </li>
 </ul>

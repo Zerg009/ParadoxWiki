@@ -8,8 +8,9 @@ import { ParadoxListComponent } from './paradox-list/paradox-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MainContentComponent } from './main-content/main-content.component';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './services/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule
   ],
   providers: [
-
+    AuthInterceptor
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -51,23 +52,25 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    this.verifyToken();
+  }
+  verifyToken()
+  {
     this.authService.verifyToken().subscribe({
       next: response => {
         this.authService.isAuthenticated = true;
+        console.log("Cookie token:" + this.authService.getToken());
+
       },
       error: error => {
         this.authService.logout();
         console.log("Not logged in!");
       },
       complete: () => {
-        console.log("Cookie token:" + this.authService.getToken());
 
       }
     });
-
-
   }
-
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
   }

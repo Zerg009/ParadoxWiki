@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import { ParadoxInfo } from '../paradox-info';
+import { ParadoxInfo } from '../types/paradox-info';
 import { gamesComponentMap } from '../constants';
-import { ParadoxService } from '../paradox-list/paradox.service';
+import { ParadoxService } from '../services/paradox.service';
 import { ParadoxesModule } from './paradoxes/paradoxes.module';
 
 import { UiPlayerComponent } from './ui-player/ui-player.component';

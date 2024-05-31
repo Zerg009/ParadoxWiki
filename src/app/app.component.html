@@ -9,21 +9,11 @@
           <button mat-button (click)="logout()" class="mx-4">Logout</button>
         </ng-container>
         <ng-container *ngIf="!isAuthenticated()">
-            <!-- <a class="mx-4"routerLink="login">Login</a>
-            <a class="mx-4"routerLink="register">Register</a> -->
-            <a mat-stroked-button  (click)="showLoginForm()" class="me-3">Login</a>
-            <a mat-raised-button  (click)="showRegisterForm()">Register</a>
+          <a mat-stroked-button (click)="showLoginForm()" class="me-3">Login</a>
+          <a mat-raised-button (click)="showRegisterForm()">Register</a>
         </ng-container>
-        
+
       </div>
-      
-      <!-- <div class="social-media">
-        <p class="mb-0 d-flex">
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="facebook" /></a>
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="twitter" /></a>
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="instagram" /></a>
-        </p>
-      </div> -->
     </div>
 
   </div>
@@ -75,9 +65,9 @@
     </nav>
     <div class="content flex-grow-1">
       <app-main-content />
-      
+
     </div>
-      
+
   </div>
 </main>
 
