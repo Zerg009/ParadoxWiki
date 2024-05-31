@@ -40,7 +40,7 @@ export class UiPlayerComponent {
     const audio_slider = document.getElementById('audio-slider') as HTMLInputElement;
     const canvasElement = this.gameCanvas;
     if (!canvasElement) return;
-    window.addEventListener('resize', () => this.resizeCanvas(canvasElement, audio_slider));
+    //window.addEventListener('resize', () => this.resizeCanvas(canvasElement, audio_slider));
 
     this.backgroundAudio = new Audio();
     this.backgroundAudio.autoplay = false;
@@ -61,7 +61,7 @@ export class UiPlayerComponent {
     });
 
     // this.backgroundAudio.play();
-    this.resizeCanvas(canvasElement, audio_slider);
+    //this.resizeCanvas(canvasElement, audio_slider);
   }
 
   onSliderChange(event: any) {

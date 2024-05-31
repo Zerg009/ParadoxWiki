@@ -4,14 +4,18 @@
       <a class="navbar-brand" href="#">Paradox <span>Wiki</span></a>
     </div>
     <div class="col d-flex justify-content-end">
-      <div class="social-media">
-        <p class="mb-0 d-flex">
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="facebook" /></a>
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="twitter" /></a>
-          <a href="#" class="d-flex align-items-center justify-content-center"><fa-icon [icon]="instagram" /></a>
-        </p>
+      <div class="registration-form d-flex justify-content-center align-items-center">
+        <ng-container *ngIf="isAuthenticated()">
+          <button mat-button (click)="logout()" class="mx-4">Logout</button>
+        </ng-container>
+        <ng-container *ngIf="!isAuthenticated()">
+          <a mat-stroked-button (click)="showLoginForm()" class="me-3">Login</a>
+          <a mat-raised-button (click)="showRegisterForm()">Register</a>
+        </ng-container>
+
       </div>
     </div>
+
   </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -57,36 +61,24 @@
           <span class="sr-only">Toggle Menu</span>
         </button>
       </div>
-      <!-- <h1><a href="index.html" class="logo">Project Name</a></h1> -->
       <app-paradox-list></app-paradox-list>
-      <!-- <ul class="list-unstyled components mb-5">
-          <li class="active">
-            <a href="#"><span class="fa fa-home mr-3"></span> Homepage</a>
-          </li>
-          <li>
-              <a href="#"><span class="fa fa-user mr-3"></span> Dashboard</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-sticky-note mr-3"></span> Friends</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-sticky-note mr-3"></span> Subcription</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-paper-plane mr-3"></span> Settings</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-paper-plane mr-3"></span> Information</a>
-          </li>
-        </ul> -->
-
     </nav>
+    <div class="content flex-grow-1">
+      <app-main-content />
 
-    <app-main-content>
-      
-    </app-main-content>
+    </div>
+
   </div>
 </main>
+
+<!-- Conditional Login Form -->
+<ng-container *ngIf="isShowingLogin()">
+  <app-login></app-login>
+</ng-container>
+<!-- Conditional Login Form -->
+<ng-container *ngIf="isShowingRegister()">
+  <app-register></app-register>
+</ng-container>
 
 <footer>
 

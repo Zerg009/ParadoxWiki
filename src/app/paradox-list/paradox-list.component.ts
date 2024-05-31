@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ParadoxInfo } from '../paradox-info';
-import { ParadoxService } from './paradox.service';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ParadoxInfo } from '../types/paradox-info';
+import { ParadoxService } from '../services/paradox.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-paradox-list',
@@ -12,18 +13,103 @@ import { ParadoxService } from './paradox.service';
   styleUrl: './paradox-list.component.css'
 })
 export class ParadoxListComponent {
+
+
   paradoxes: ParadoxInfo[];
-  constructor(private paradoxService: ParadoxService){}
+  favoriteParadoxes: ParadoxInfo[];
+  constructor(private paradoxService: ParadoxService, private userService: UserService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getParadoxList();
+    this.getFavoriteParadoxes();
   }
-  getParadoxList(){
+
+  getParadoxList() {
     return this.paradoxService.getParadoxList().subscribe(data => {
       this.paradoxes = data;
     });
   }
-  setCurrentParadox(paradox: ParadoxInfo){
+
+  setCurrentParadox(paradox: ParadoxInfo) {
     this.paradoxService.setCurrentParadox(paradox);
+  }
+
+  addToFavorite(paradox: ParadoxInfo) {
+    if (this.isFavorite(paradox)) {
+      // this.favoriteParadoxes = this.favoriteParadoxes.filter(fav => fav.paradox_id !== paradox.paradox_id);
+      this.removeFavorite(paradox);
+    } else {
+      this.favoriteParadoxes.push(paradox);
+      this.userService.addFavorite(paradox.paradox_id).subscribe({
+        next: response => {
+          console.log('Favorite added:', response);
+          // Optionally, perform any additional actions after successfully adding a favorite
+        },
+        error: error => {
+          console.error('Error adding favorite:', error);
+          // Optionally, handle the error or show a notification to the user
+        },
+        complete: () => {
+          console.log('Add favorite request completed.');
+          // Optionally, perform any cleanup or additional actions after the request is completed
+        }
+      });
+    }
+    //this.getFavoriteParadoxes();
+    
+    this.detectChanges();
+  }
+
+  removeFavorite(paradox: ParadoxInfo) {
+    // Find the index of the paradox to be removed
+    const index = this.favoriteParadoxes.findIndex(fav => fav.paradox_id === paradox.paradox_id);
+
+    // If the paradox is found, remove it from the local array and return it
+    if (index !== -1) {
+      const removedParadox = this.favoriteParadoxes.splice(index, 1)[0];
+
+      // Send an HTTP request to remove the paradox from the backend
+      this.userService.removeFavorite(removedParadox.paradox_id).subscribe({
+        next: (response) => {
+          console.log('Favorite removed from backend:', response);
+          // Optionally, perform any additional actions after successfully removing the favorite from the backend
+        },
+        error: (error) => {
+          console.error('Error removing favorite from backend:', error);
+          // Optionally, handle the error or show a notification to the user
+        },
+        complete: () => {
+          console.log('Remove favorite request completed.');
+          // Optionally, perform any cleanup or additional actions after the request is completed
+        },
+      });
+    }
+  }
+
+  getFavoriteParadoxes() {
+    this.userService.getFavoriteParadoxes().subscribe({
+      next: (favoriteParadoxes: any) => {
+        console.log('Favorite paradoxes:', favoriteParadoxes);
+        this.favoriteParadoxes = favoriteParadoxes;
+        // Optionally, assign the retrieved data to a property in your component or service
+      },
+      error: (error: any) => {
+        console.error('Error fetching favorite paradoxes:', error);
+        // Optionally, handle the error or show a notification to the user
+      },
+      complete: () => {
+        console.log('Get favorite paradoxes request completed.');
+      }
+    });
+  }
+
+  isFavorite(paradox: ParadoxInfo): boolean {
+    if (this.favoriteParadoxes && this.favoriteParadoxes.length > 0)
+      return this.favoriteParadoxes.some(fav => fav.paradox_id === paradox.paradox_id);
+    return false;
+  }
+  // Method to trigger change detection
+  detectChanges() {
+    this.cdr.detectChanges();
   }
 }

@@ -1,0 +1,45 @@
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <!-- <div class="flex h-screen justify-center"> -->
+            <div class="modal-header p-0 pb-2" style="border-bottom: 0;">
+                    
+                <button type="button" class="close" (click)="closeForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form (ngSubmit)="submit()" class="p-2 rounded-lg border" #myForm="ngForm">
+                
+                <h1 class="text-center text-xl">Login</h1>
+                <div class="my-2 w-full">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="p-2 rounded w-full border" placeholder="Email address"
+                        [(ngModel)]="form.email" name="email" #email="ngModel" required />
+                </div>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="p-2 bg-red-300 text-red-50">
+                    Email field must be valid!
+                </div>
+                <div class="my-2 w-full">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="p-2 rounded w-full border" placeholder="Password"
+                        [(ngModel)]="form.password" name="password" #password="ngModel" required>
+                </div>
+                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                    class="p-2 bg-red-300 text-red-50">
+                    Password field must be valid!
+                </div>
+                <div class="my-2 w-full">
+                    <button type="submit" [disabled]="myForm.form.invalid"
+                        class="p-2 w-full  bg-purple-700 text-white hover:bg-purple-900">
+                        <ng-container *ngIf="isLoading()">
+                            Loading...
+                        </ng-container>
+                        <ng-container *ngIf="!isLoading()">
+                            Submit
+                        </ng-container>
+
+                    </button>
+                </div>
+            </form>
+        <!-- </div> -->
+    </div>
+</div>

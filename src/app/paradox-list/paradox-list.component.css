@@ -1,0 +1,36 @@
+/* Assuming you have a class for the list item */
+.list-unstyled.components li {
+    /* Set display to flex to make items align horizontally */
+    display: flex;
+    /* Align items to the center vertically */
+    align-items: center;
+    /* Justify content to space-between to push the icon to the end */
+    justify-content: space-between;
+}
+
+/* Adjust margin between title and icon as needed */
+.list-unstyled.components li a {
+    /* Set anchor tag to flex */
+    display: flex;
+    /* Align items to the center */
+    align-items: center;
+    /* Ensure text takes up most of the space */
+    flex-grow: 1;
+}
+
+/* Adjust margin between title and icon as needed */
+.list-unstyled.components li i {
+    padding: 15px 8px;
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+.list-unstyled.components li i:hover {
+    color: yellow;
+}
+
+/* Add this CSS rule to your global stylesheet or component-specific stylesheet */
+.list-unstyled.components li i.fa-star.fa-solid {
+    color: yellow;
+}

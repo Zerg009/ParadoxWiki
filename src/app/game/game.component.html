@@ -1,11 +1,25 @@
-<ng-container *ngIf="currentState === 'game'"  >
-    <canvas id="gameCanvas" #gameCanvas></canvas>
-    <ng-container #gameContainer ></ng-container>
-</ng-container>
-<ng-container *ngIf="currentState === 'video'">
+<!-- <ng-container *ngIf="currentState === 'game'"  > -->
+    <!-- <canvas id="gameCanvas" #gameCanvas style="width: 100%;"></canvas>
+    <ng-container #gameContainer ></ng-container> -->
+<!-- </ng-container> -->
+<!-- <ng-container *ngIf="currentState === 'video'">
     <app-videoplayer></app-videoplayer>
-</ng-container>
+</ng-container> -->
 
-<button (click)="changeState()">Play Game!</button>
+
 <!-- <app-ui-player [gameCanvas]="gameCanvas" #ui_player></app-ui-player> -->
-
+<div id="unity-container" class="unity-desktop">
+  <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+  <div id="unity-loading-bar">
+    <div id="unity-logo"></div>
+    <div id="unity-progress-bar-empty">
+      <div id="unity-progress-bar-full"></div>
+    </div>
+  </div>
+  <div id="unity-warning"> </div>
+  <div id="unity-footer">
+    <div id="unity-webgl-logo"></div>
+    <div id="unity-fullscreen-button"></div>
+    <div id="unity-build-title">Test</div>
+  </div>
+</div>
