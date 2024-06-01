@@ -1,0 +1,143 @@
+
+
+/* Navbar text color */
+.navbar-nav .nav-link,
+.navbar-brand,
+.dropdown-menu .dropdown-item,
+.search-wrapper input,
+.authentication-buttons button {
+    color: #ffffff !important; /* Set text color to white */
+}
+
+/* Paradoxes: Cascade list */
+
+/* Transparent background for the button */
+.btn-transparent {
+    background-color: transparent;
+    border: none;
+    color: #FFF;
+    /* Adjust the color as needed */
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+/* Custom styles for the dropdown on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    /* Adjust if needed */
+}
+
+/* Custom styles for the dropdown menu */
+.dropdown-menu {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    min-width: auto; 
+    padding-top: 0;
+    transition: opacity 0.3s ease-in-out; /* Add transition for opacity */
+}
+
+
+/* Custom styles for dropdown items */
+.dropdown-item {
+    background-color: transparent;
+    color: #FFF;
+    /* Adjust the color as needed */
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #56555540;
+    /* Adjust the color as needed */
+}
+
+/* Chevron icon styling */
+.btn-transparent i {
+    transition: transform 0.3s;
+}
+
+.btn-transparent[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+
+/* Search bar */
+.search-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border-radius: 4rem;
+    background: #fff;
+    align-items: center;
+    justify-content: flex-end; /* Align button to the right */
+    outline: none;
+    border: 3px solid #888;
+    overflow: hidden;
+    position: relative;
+    transition: width 400ms ease-in-out;
+  }
+  
+  .search-wrapper:hover {
+    width: 250px;
+  }
+  
+  .search-wrapper input {
+    position: absolute;
+    top: 0;
+    right: -10px; /* Align input to the right */
+    width: calc(100% - 40px); /* Adjust width to leave space for button */
+    height: 100%;
+    margin-left: 4px;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity, width 0.3s ease;
+  }
+  
+  .search-wrapper:hover input {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    /* border-radius: 50%;
+    border: 2px solid white; */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: #e66610;
+    z-index: 1;
+    position: absolute; /* Keep button static */
+    left: 0; /* Align button to the left */
+  }
+  
+  .search-btn i {
+    color: #fff;
+    font-size: 1rem;
+    padding-right: 4px;
+  }
+  .search-wrapper:hover .search-btn i {
+    opacity: 1;
+    pointer-events: auto;
+    padding-right: 0;
+  }
+
+/* Authentication */
+  .authentication-buttons {
+    display: flex;
+  }
+  
+  .authentication-buttons button {
+    margin-right: 10px; /* Adjust margin between buttons as needed */
+  }

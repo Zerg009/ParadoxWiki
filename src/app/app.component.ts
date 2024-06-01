@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @Component({
@@ -25,7 +26,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatButtonModule,
     ParadoxListComponent,
     MainContentComponent,
-    AuthModule
+    AuthModule,
+    NavbarComponent
   ],
   providers: [
     AuthInterceptor

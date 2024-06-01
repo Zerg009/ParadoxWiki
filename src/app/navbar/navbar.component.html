@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <!-- Logo and Site Name -->
+        <a class="navbar-brand" href="#">
+            <img src="/assets/img/ParadoxWiki_logo.png" alt="Logo" width="30" height="30"
+                class="d-inline-block align-top">
+            Paradox WIki
+        </a>
+
+        <!-- Paradoxes Dropdown in the Center -->
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="paradoxesDropdown" role="button"
+                    (click)="toggleDropdown()" [attr.aria-expanded]="isDropdownOpen" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Paradoxes <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="paradoxesDropdown">
+                    <li><a class="dropdown-item" href="#">Paradox 1</a></li>
+                    <li><a class="dropdown-item" href="#">Paradox 2</a></li>
+                    <li><a class="dropdown-item" href="#">Paradox 3</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Right side elements -->
+        <div class="d-flex align-items-center">
+            <div class="search-wrapper">
+                <input type="search" placeholder="Search">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+              </div>
+            <!-- Language -->
+            <div class="dropdown me-2">
+                <a class="btn btn-transparent dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown"
+                    role="button">
+                    {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                    <li *ngFor="let language of languages" >
+                        <a *ngIf="language !== selectedLanguage" class="dropdown-item" href="#" (click)="selectLanguage(language)">{{ language }}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Authentication -->
+            <div class="authentication-buttons">
+                <button mat-button color="primary" class="login-button">Login</button>
+                <button mat-button color="primary" class="signup-button" mat-stroked-button>Sign Up</button>
+              </div>
+        </div>
+    </div>
+
+</nav>
