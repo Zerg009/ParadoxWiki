@@ -1,14 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light pt-4 fixed-top">
+    <div class="container-fluid align-items-stretch">
         <!-- Logo and Site Name -->
-        <a class="navbar-brand" href="#">
-            <img src="/assets/img/ParadoxWiki_logo.png" alt="Logo" width="30" height="30"
-                class="d-inline-block align-top">
-            Paradox WIki
-        </a>
+        <div class="logo d-flex align-items-center">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="/assets/img/ParadoxWiki_logo.png" alt="Logo" class="logo-image">
+            </a>
+            <!-- Text -->
+            <div class="logo-text">
+                <span class="paradox-text">Paradox</span>
+                <span class="wiki-text">Wiki</span>
+            </div>
+        </div>
 
         <!-- Paradoxes Dropdown in the Center -->
-        <ul class="navbar-nav mx-auto">
+        <div class="navbar-nav mx-auto pt-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="paradoxesDropdown" role="button"
                     (click)="toggleDropdown()" [attr.aria-expanded]="isDropdownOpen" data-bs-toggle="dropdown"
@@ -21,17 +27,17 @@
                     <li><a class="dropdown-item" href="#">Paradox 3</a></li>
                 </ul>
             </li>
-        </ul>
+        </div>
 
         <!-- Right side elements -->
-        <div class="d-flex align-items-center">
+        <div class="d-flex pt-4">
             <div class="search-wrapper">
                 <input type="search" placeholder="Search">
                 <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
               </div>
             <!-- Language -->
             <div class="dropdown me-2">
-                <a class="btn btn-transparent dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown"
+                <a class="btn btn-transparent dropdown-toggle d-flex " href="#" id="languageDropdown"
                     role="button">
                     {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
                 </a>
@@ -43,10 +49,9 @@
             </div>
             <!-- Authentication -->
             <div class="authentication-buttons">
-                <button mat-button color="primary" class="login-button">Login</button>
-                <button mat-button color="primary" class="signup-button" mat-stroked-button>Sign Up</button>
-              </div>
+                <button mat-button color="primary" id="login-button">Login</button>
+                <button mat-stroked-button color="primary" id="signup-button" >Sign Up</button>
+            </div>
         </div>
     </div>
-
 </nav>
