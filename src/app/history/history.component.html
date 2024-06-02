@@ -1,0 +1,10 @@
+<div class="container">
+    <h2>Ultimile paradoxuri accesate</h2>
+    <div class="last-paradoxes">
+      <div class="paradox" *ngFor="let paradox of lastThreeParadoxes; let i = index">
+        <div class="number">#{{i+1}}</div>
+        <div class="name">{{paradox.name}}</div>
+        <div class="separator" *ngIf="i !== lastThreeParadoxes.length - 1"></div>
+      </div>
+    </div>
+</div>

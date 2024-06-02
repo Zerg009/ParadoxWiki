@@ -4,6 +4,7 @@ import { ParadoxService } from '../services/paradox.service';
 import { CommonModule } from '@angular/common';
 import { GameComponent } from '../game/game.component';
 import { VideoplayerComponent } from '../videoplayer/videoplayer.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-content',
@@ -11,7 +12,8 @@ import { VideoplayerComponent } from '../videoplayer/videoplayer.component';
   imports: [
     CommonModule,
     GameComponent,
-    VideoplayerComponent
+    VideoplayerComponent,
+    RouterModule
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.css'

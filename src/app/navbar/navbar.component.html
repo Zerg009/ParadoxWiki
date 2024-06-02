@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light pt-4 fixed-top">
-    <div class="container-fluid align-items-stretch">
+    <div class="container-fluid align-items-start">
         <!-- Logo and Site Name -->
         <div class="logo d-flex align-items-center">
             <!-- Logo -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" routerLink="">
                 <img src="/assets/img/ParadoxWiki_logo.png" alt="Logo" class="logo-image">
             </a>
             <!-- Text -->
@@ -16,15 +16,23 @@
         <!-- Paradoxes Dropdown in the Center -->
         <div class="navbar-nav mx-auto pt-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="paradoxesDropdown" role="button"
-                    (click)="toggleDropdown()" [attr.aria-expanded]="isDropdownOpen" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Paradoxes <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                <a 
+                    class="nav-link dropdown-toggle" 
+                    routerLink="" 
+                    id="paradoxesDropdown" 
+                    role="button"
+                    (click)="toggleDropdown()" 
+                    [attr.aria-expanded]="isDropdownOpen" 
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    Paradoxes 
+                    <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="paradoxesDropdown">
-                    <li><a class="dropdown-item" href="#">Paradox 1</a></li>
-                    <li><a class="dropdown-item" href="#">Paradox 2</a></li>
-                    <li><a class="dropdown-item" href="#">Paradox 3</a></li>
+                    <li><a class="dropdown-item" routerLink="">Paradox 1</a></li>
+                    <li><a class="dropdown-item" routerLink="">Paradox 2</a></li>
+                    <li><a class="dropdown-item" routerLink="">Paradox 3</a></li>
                 </ul>
             </li>
         </div>
@@ -32,25 +40,27 @@
         <!-- Right side elements -->
         <div class="d-flex pt-4">
             <div class="search-wrapper">
-                <input type="search" placeholder="Search">
-                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-              </div>
+                <input type="search" placeholder="Search" />
+                <button class="search-btn">
+                    <i id="search-icon" class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
             <!-- Language -->
             <div class="dropdown me-2">
-                <a class="btn btn-transparent dropdown-toggle d-flex " href="#" id="languageDropdown"
-                    role="button">
+                <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown" role="button">
                     {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                    <li *ngFor="let language of languages" >
-                        <a *ngIf="language !== selectedLanguage" class="dropdown-item" href="#" (click)="selectLanguage(language)">{{ language }}</a>
+                    <li *ngFor="let language of languages">
+                        <a *ngIf="language !== selectedLanguage" class="dropdown-item" routerLink=""
+                            (click)="selectLanguage(language)">{{ language }}</a>
                     </li>
                 </ul>
             </div>
             <!-- Authentication -->
             <div class="authentication-buttons">
-                <button mat-button color="primary" id="login-button">Login</button>
-                <button mat-stroked-button color="primary" id="signup-button" >Sign Up</button>
+                <button routerLink="login" mat-button color="primary" id="login-button">Login</button>
+                <button routerLink="register" mat-stroked-button color="primary" id="signup-button">Sign Up</button>
             </div>
         </div>
     </div>
