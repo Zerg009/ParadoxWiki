@@ -39,14 +39,21 @@
 
         <!-- Right side elements -->
         <div class="d-flex pt-4">
+
             <div class="search-wrapper">
                 <input type="search" placeholder="Search" />
                 <button class="search-btn">
                     <i id="search-icon" class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
+            <div class="history d-flex align-items-center">
+                <a class="btn btn-transparent  nav-link" routerLink="history" id="languageDropdown" role="button">
+                    <i class="fa fa-history"  aria-hidden="true"></i>
+                </a>
+               
+            </div>
             <!-- Language -->
-            <div class="dropdown me-2">
+            <div class="dropdown">
                 <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown" role="button">
                     {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
                 </a>

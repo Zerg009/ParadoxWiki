@@ -1,25 +1,37 @@
-.last-paradoxes {
+.number {
+    font-size: 2rem; 
+    margin-bottom: 10px; 
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-size: 1.5rem; 
+    margin-top: 10px; 
+    text-align: center;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .last-paradoxes{
     display: flex;
+    
   }
-  
-  .paradox {
-    display: flex;
-    align-items: center;
-    margin-right: 10px; /* Adjust as needed */
+  .paradox-content{ 
+    /* margin: 0 10px; */
+    /* border-right: solid 1px; */
+
+    word-wrap: break-word; /* Ensures long words break to prevent overflow */
+    overflow-wrap: break-word; /* Alternative for word-wrap, ensures long words break */
   }
-  
-  .number {
-    font-size: 24px; /* Adjust size as needed */
-    margin-right: 5px;
+  .border-right{
+    border-right: 1px solid #dee2e6;
+    padding-right: 25px;
   }
-  
-  .separator {
-    border-right: 1px solid #000; /* Adjust color and thickness as needed */
-    margin: 0 10px; /* Adjust margin as needed */
-  }
-  
-  /* Optional: If you want to align the text vertically centered */
-  .name {
-    display: inline-block;
-    vertical-align: middle;
+
+  .btn:hover{
+    color: #d9acdf
+  }  
+  .btn{
+    color: #fff
   }

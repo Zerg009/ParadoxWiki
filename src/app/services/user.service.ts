@@ -17,7 +17,6 @@ export class UserService {
   }
 
   getFavoriteParadoxes() {
-  
     console.log('Requesting favorite paradoxes with headers:');
     return this.httpClient.get<ParadoxInfo[]>(this.baseURL +'user/favorites');
   }
