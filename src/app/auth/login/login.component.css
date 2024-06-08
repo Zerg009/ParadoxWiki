@@ -74,4 +74,12 @@
 }
 .text-danger{
     font-size: 0.6rem;
+    line-height:  0.8rem;
+}
+.btn{
+    border: none;
+
+}
+.btn:hover{
+    color: #A297ED;    
 }

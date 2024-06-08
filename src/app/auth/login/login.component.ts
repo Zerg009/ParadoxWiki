@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { AngularDialogComponent } from '../angular-dialog/angular-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { strongPasswordValidator } from '../validators/custom-validators';
 
 @Component({
   selector: 'app-login',
@@ -22,8 +23,8 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, strongPasswordValidator()]],
       rememberMe: [false]
     });
   }

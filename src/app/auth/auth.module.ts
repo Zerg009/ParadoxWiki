@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularDialogComponent } from './angular-dialog/angular-dialog.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -17,7 +18,8 @@ import { AngularDialogComponent } from './angular-dialog/angular-dialog.componen
     CommonModule,
     FormsModule,
     AngularDialogComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     LoginComponent,

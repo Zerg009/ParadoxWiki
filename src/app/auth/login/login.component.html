@@ -43,39 +43,69 @@
 </div> -->
 
 <div class="container d-flex justify-content-center align-items-center">
-<div class="card p-4" style="width: 100%; max-width: 60%;">
-    <div class="text-center">
-        <img src="/assets/img/logo_login.png" alt="Logo" class="mb-4 mx-auto logo-img">
+    <div class="card p-4" style="width: 100%; max-width: 60%;">
+        <div class="text-center">
+            <img src="/assets/img/logo_login.png" alt="Logo" class="mb-4 mx-auto logo-img">
+        </div>
+        <h3 class="text-center default-text lilac-color login-text mb-2">Login Now</h3>
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+            <div class="form-group mb-4">
+                <label for="email" class="info-text mb-2">*Email</label>
+                <input [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                    type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email">
+
+                <div *ngIf="loginForm.get('email')?.touched || loginForm.get('email')?.dirty">
+                    <div *ngIf="loginForm.get('email')?.errors?.['required']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Email is required</span>
+                    </div>
+
+                    <!-- Error message for invalid email format (default validator) -->
+                    <div *ngIf="loginForm.get('email')?.errors?.['email']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Introduce a valid email like example&#64;gmail.com</span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group mb-2">
+                <label for="password" class="info-text mb-2">*Password</label>
+                <input type="password" id="password" class="form-control" formControlName="password"
+                    placeholder="Enter password"
+                    [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+
+                <div *ngIf="loginForm.get('password')?.touched || loginForm.get('password')?.dirty">
+                    <!-- <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Password is required</span>
+                    </div> -->
+                    
+                    <div *ngIf="loginForm.get('password')?.errors?.['invalidPassword']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Password must contain at least 8 characters, including uppercase, lowercase, digits, and special characters.</span>
+                    </div>
+
+                </div>
+
+                <!-- <div *ngIf="loginForm.get('password')?.invalid"
+                    class="text-danger  mt-1">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i> <span>Password is required</span>
+                </div> -->
+
+            </div>
+            <div class="form-check mb-3 d-flex align-items-center">
+                <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe">
+                <label class="form-check-label ml-1 mb-0 info-text mt-1" for="rememberMe">Remember me</label>
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <button type="submit" class="btn btn-primary custom-btn" [disabled]="loginForm.invalid">LOGIN</button>
+            </div>
+            <div class="text-center d-flex justify-content-between align-items-center">
+                <a routerLink="/register" class="d-block violet-color question-text btn btn-transparent">Don't have an account?</a>
+
+                <a routerLink="/password-recovery" class="d-block violet-color question-text btn btn-transparent">Forget password?</a>
+            </div>
+        </form>
     </div>
-    <h3 class="text-center default-text lilac-color login-text mb-2">Login Now</h3>
-    <form [formGroup]="loginForm" (ngSubmit)="submit()">
-        <div class="form-group mb-4">
-            <label for="email" class="info-text mb-2">*Email</label>
-            <input type="email" id="email" class="form-control" formControlName="email"
-                placeholder="Enter email">
-            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger mt-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i> <span>Email is required</span>
-            </div>
-        </div>
-        <div class="form-group mb-2">
-            <label for="password" class="info-text mb-2">*Password</label>
-            <input type="password" id="password" class="form-control" formControlName="password"
-                placeholder="Enter password">
-            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger  mt-1">
-                <i class="fa-solid fa-circle-exclamation mr-2"></i> <span>Password is required</span>
-            </div>
-        </div>
-        <div class="form-check mb-3 d-flex align-items-center">
-            <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe">
-            <label class="form-check-label ml-1 mb-0 info-text mt-1" for="rememberMe">Remember me</label>
-          </div>
-        <div class="d-flex justify-content-center mb-4">
-        <button type="submit" class="btn btn-primary custom-btn" [disabled]="loginForm.invalid">LOGIN</button>
-        </div>
-        <div class="text-center mt-3 d-flex justify-content-between align-items-center">
-            <a href="#" class="d-block violet-color question-text">Don't have an account?</a>
-            <a href="#" class="d-block violet-color question-text mt-2">Forget password?</a>
-        </div>
-    </form>
-</div>
 </div>
