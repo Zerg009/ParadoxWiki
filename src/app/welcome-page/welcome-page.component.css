@@ -1,13 +1,12 @@
 .welcome-text{
     font-size: 2.5rem;
     color: #E57EFF;
-    font-family: 'Livvic';
 }
 
 .exploration-text{
     font-size: 1.5rem;
     margin-top: 10px;
     line-height: 25px;
-    font-family: 'Livvic';
+
     color: #FAE5FD;
 }

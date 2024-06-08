@@ -17,6 +17,7 @@ export class AuthService {
   passwordMatched: boolean = false;
   _isShowingLogin: boolean = false;
   _isShowingRegister: boolean = false;
+  rememberMe: boolean = false;
   private baseURL = "http://localhost:8080/api/v1/auth";
 
   // Private subjects for login and logout events

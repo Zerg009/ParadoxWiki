@@ -71,3 +71,16 @@ body {
     width: 100%;
     height: 100%;
 }
+.default-text{
+    font-family: 'Livvic';
+}
+
+.pink-color{
+    color: #D9ACDF;
+}
+.lilac-color{
+    color: #A297ED;
+}
+.violet-color{
+    color: #794CEC;
+}
