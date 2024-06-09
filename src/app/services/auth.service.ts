@@ -116,7 +116,7 @@ export class AuthService {
 
   }
   saveToken(token: string): void {
-    this.cookieService.set('jwtToken', token, 30, "/"); // Expires in 30 day
+    this.cookieService.set('jwtToken', token, 30, "/",'', false); // Expires in 30 day
   }
 
   // getToken(): string {
