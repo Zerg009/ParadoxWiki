@@ -31,7 +31,7 @@ export class ParadoxListComponent {
   ) { }
 
   ngOnInit() {
-    console.log('ngOnInit triggered');
+    //console.log('ngOnInit triggered');
     this.initData();
     this.manageSubscriptions();
   }
@@ -76,6 +76,8 @@ export class ParadoxListComponent {
 
   setCurrentParadox(paradox: ParadoxInfo) {
     this.paradoxService.setCurrentParadox(paradox);
+    //this.router.navigate(["/paradoxes/"+paradox.tech_name]);
+    this.router.navigate(['/paradoxes', paradox.tech_name]);
   }
 
   addToFavorite(paradox: ParadoxInfo) {

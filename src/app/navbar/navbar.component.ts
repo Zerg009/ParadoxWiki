@@ -6,11 +6,18 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Subscription, first } from 'rxjs';
+import { ParadoxListComponent } from '../paradox-list/paradox-list.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatButtonModule, 
+    RouterModule, 
+    ParadoxListComponent
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

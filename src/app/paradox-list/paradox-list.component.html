@@ -1,8 +1,14 @@
-<ul class="list-unstyled components">
+<ul class="list-unstyled components dropdown-menu" aria-labelledby="paradoxesDropdown">
     <li *ngFor="let paradox of paradoxes">
-        <a href="#" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a>
-        <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(paradox), 'fa-solid': isFavorite(paradox)}"
+        <a class="dropdown-item" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a>
+        <!-- <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(paradox), 'fa-solid': isFavorite(paradox)}"
             (click)="addToFavorite(paradox)">
-        </i>
+        </i> -->
     </li>
 </ul>
+
+               <!-- <ul class="dropdown-menu" aria-labelledby="paradoxesDropdown">
+                    <li><a class="dropdown-item" routerLink="">Paradox 1</a></li>
+                    <li><a class="dropdown-item" routerLink="">Paradox 2</a></li>
+                    <li><a class="dropdown-item" routerLink="">Paradox 3</a></li>
+                </ul> -->
