@@ -16,17 +16,10 @@
         <!-- Paradoxes Dropdown in the Center -->
         <div class="navbar-nav mx-auto pt-4">
             <li class="nav-item dropdown">
-                <a 
-                    class="nav-link dropdown-toggle" 
-                    routerLink="" 
-                    id="paradoxesDropdown" 
-                    role="button"
-                    (click)="toggleDropdown()" 
-                    [attr.aria-expanded]="isDropdownOpen" 
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                >
-                    Paradoxes 
+                <a class="nav-link dropdown-toggle" routerLink="" id="paradoxesDropdown" role="button"
+                    (click)="toggleDropdown()" [attr.aria-expanded]="isDropdownOpen" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Paradoxes
                     <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="paradoxesDropdown">
@@ -48,13 +41,14 @@
             </div>
             <div class="history d-flex align-items-center">
                 <a class="btn btn-transparent  nav-link" routerLink="history" id="languageDropdown" role="button">
-                    <i class="fa fa-history"  aria-hidden="true"></i>
+                    <i class="fa fa-history" aria-hidden="true"></i>
                 </a>
-               
+
             </div>
             <!-- Language -->
             <div class="dropdown">
-                <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown" role="button">
+                <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown"
+                    role="button">
                     {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="languageDropdown">
@@ -64,10 +58,20 @@
                     </li>
                 </ul>
             </div>
+
             <!-- Authentication -->
             <div class="authentication-buttons">
-                <button routerLink="login" mat-button color="primary" id="login-button">Login</button>
-                <button routerLink="register" mat-stroked-button color="primary" id="signup-button">Sign Up</button>
+                <!-- Display login and sign up buttons if user is not authenticated -->
+                <button *ngIf="!isAuthenticated" routerLink="login" mat-button color="primary"
+                    id="login-button">Login</button>
+                <button *ngIf="!isAuthenticated" routerLink="register" mat-stroked-button color="primary"
+                    id="signup-button">Sign Up</button>
+
+                <!-- Display user greeting and sign out button if user is authenticated -->
+                <div *ngIf="isAuthenticated" class="user-greeting">
+                    <span class="hello-text pink-color">Hello, {{ username }}</span> 
+                    <button mat-button color="primary" (click)="logout()">Sign Out</button>
+                </div>
             </div>
         </div>
     </div>

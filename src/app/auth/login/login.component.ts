@@ -24,7 +24,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, strongPasswordValidator()]],
+      password: ['', [Validators.required]],
       rememberMe: [false]
     });
   }
@@ -45,7 +45,4 @@ export class LoginComponent {
     return this.authService.isLoading;
   }
 
-  closeForm() {
-    this.authService.isShowingLogin = false;
-  }
 }

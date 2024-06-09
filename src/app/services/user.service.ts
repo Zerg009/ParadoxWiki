@@ -10,6 +10,7 @@ import { UserHistory } from '../types/user-history';
 export class UserService {
   
   private baseURL = "http://localhost:8080/api/v1/";
+  private userFirstName: string = '';
   constructor(private httpClient: HttpClient) { }
 
   addFavorite(paradoxId: number) {
@@ -25,5 +26,8 @@ export class UserService {
   }
   removeFavorite(paradoxId: number) {
     return this.httpClient.delete<any>(this.baseURL + 'user/remove_favorite/' + paradoxId);
+  }
+  getUserFirstName(){
+    return this.httpClient.get<any>(this.baseURL + 'user/firstname');
   }
 }

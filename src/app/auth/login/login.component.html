@@ -45,7 +45,7 @@
 <div class="container d-flex justify-content-center align-items-center">
     <div class="card p-4" style="width: 100%; max-width: 60%;">
         <div class="text-center">
-            <img src="/assets/img/logo_login.png" alt="Logo" class="mb-4 mx-auto logo-img">
+            <img src="/assets/img/login_logo.png" alt="Logo" class="mb-4 mx-auto logo-img">
         </div>
         <h3 class="text-center default-text lilac-color login-text mb-2">Login Now</h3>
         <form [formGroup]="loginForm" (ngSubmit)="submit()">
@@ -81,10 +81,10 @@
                         <span>Password is required</span>
                     </div> -->
                     
-                    <div *ngIf="loginForm.get('password')?.errors?.['invalidPassword']" class="text-danger mt-1">
+                    <!-- <div *ngIf="loginForm.get('password')?.errors?.['invalidPassword']" class="text-danger mt-1">
                         <i class="fa-solid fa-circle-exclamation mr-2"></i>
                         <span>Password must contain at least 8 characters, including uppercase, lowercase, digits, and special characters.</span>
-                    </div>
+                    </div> -->
 
                 </div>
 

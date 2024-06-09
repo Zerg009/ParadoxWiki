@@ -6,5 +6,4 @@ export interface RegisterForm{
     email: string,
     firstName: string,
     password: string,
-    confirmPassword: string
 }

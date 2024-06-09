@@ -66,16 +66,17 @@ export class AppComponent {
   logout() {
     this.authService.logout();
   }
-  showRegisterForm() {
-    this.authService.isShowingRegister = true;
-  }
-  showLoginForm() {
-    this.authService.isShowingLogin = true;
-  }
-  isShowingLogin(): boolean {
-    return this.authService.isShowingLogin;
-  }
-  isShowingRegister(): boolean {
-    return this.authService.isShowingRegister;
-  }
+//   showRegisterForm() {
+//     this.authService.isShowingRegister = true;
+//   }
+//   showLoginForm() {
+//     this.authService.isShowingLogin = true;
+//   }
+//   isShowingLogin(): boolean {
+//     return this.authService.isShowingLogin;
+//   }
+//   isShowingRegister(): boolean {
+//     return this.authService.isShowingRegister;
+//   }
+// }
 }
