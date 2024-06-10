@@ -7,6 +7,9 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Subscription, first } from 'rxjs';
 import { ParadoxListComponent } from '../paradox-list/paradox-list.component';
+import { ParadoxService } from '../services/paradox.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchModalComponent } from '../search-modal/search-modal.component';
 
 @Component({
   selector: 'app-navbar',
@@ -28,9 +31,14 @@ export class NavbarComponent {
   selectedLanguage: string = 'EN';
   username: string = '';
   isAuthenticated: boolean = false;
+  searchTerm: string = '';
   private subscriptions: Subscription = new Subscription();
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(
+    private authService: AuthService,
+     private userService: UserService, 
+     private paradoxService: ParadoxService,
+     public dialog: MatDialog) { }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
@@ -96,5 +104,22 @@ export class NavbarComponent {
   }
   logout() {
     this.authService.logout();
+  }
+  search() {
+    console.log("Search");
+    if (this.searchTerm.trim()) {
+      this.paradoxService.searchParadoxes(this.searchTerm).subscribe((data) => {
+        console.log(data);
+      });
+    }
+  }
+  openSearchModal() {
+    const dialogRef = this.dialog.open(SearchModalComponent, {
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

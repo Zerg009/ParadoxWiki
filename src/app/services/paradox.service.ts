@@ -8,7 +8,7 @@ import { ParadoxInfo } from '../types/paradox-info';
 })
 export class ParadoxService {
   currentParadox: ParadoxInfo;
-  private baseURL = "http://localhost:8080/api/v1/paradox_info";
+  private baseURL = "http://localhost:8080/api/v1";
   private paradoxChangedSource: Subject<ParadoxInfo> = new Subject<ParadoxInfo>();
   private paradoxListChanged: Subject<void> = new Subject<void>();
   private paradoxList: ParadoxInfo[];
@@ -16,7 +16,7 @@ export class ParadoxService {
 
   }
   retrieveParadoxList() {
-    this.httpClient.get<ParadoxInfo[]>(`${this.baseURL}`).subscribe(data => {
+    this.httpClient.get<ParadoxInfo[]>(`${this.baseURL}/paradox_info`).subscribe(data => {
       this.paradoxList = data;
       this.paradoxListChanged.next();
     });
@@ -43,5 +43,10 @@ export class ParadoxService {
     }
     //const paradox = this.paradoxList.find(p => p.tech_name.toLowerCase() === tech_name.toLowerCase());
     return undefined;
+  }
+  searchParadoxes(keyword: string): Observable<ParadoxInfo[]> {
+    return this.httpClient.get<ParadoxInfo[]>(`${this.baseURL}/search`, {
+      params: { keyword }
+    });
   }
 }

@@ -19,9 +19,9 @@ import { Router, RouterModule } from '@angular/router';
 export class ParadoxListComponent {
   paradoxes: ParadoxInfo[] = [];
   favoriteParadoxes: ParadoxInfo[] = [];
-  // Subscription to logout events
-  private logoutSubscription: Subscription;
   private subscriptions: Subscription = new Subscription();
+  groupedParadoxes: { letter: string, paradoxes: ParadoxInfo[] }[] = [];
+
   constructor(
     private paradoxService: ParadoxService,
     private userService: UserService,
@@ -68,9 +68,37 @@ export class ParadoxListComponent {
         console.log("got paradoxes");
         
         this.paradoxes = this.paradoxService.getParadoxList(); // Fetch the data when notified
+        this.groupParadoxes();
       })
     );
     
+  }
+  groupParadoxes(): void {
+    const grouped = this.paradoxes.reduce((acc, paradox) => {
+      const firstLetter = paradox.title[0].toUpperCase();
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
+      }
+      acc[firstLetter].push(paradox);
+      return acc;
+    }, {} as { [key: string]: ParadoxInfo[] });
+
+    this.groupedParadoxes = Object.keys(grouped).sort().map(letter => ({
+      letter,
+      paradoxes: grouped[letter]
+    }));
+  }
+  splitIntoColumns(paradoxes: ParadoxInfo[], columns: number): ParadoxInfo[][] {
+    if (paradoxes.length <= 10) {
+      return [paradoxes];
+    }
+    
+    const result: ParadoxInfo[][] = [];
+    const itemsPerColumn = Math.ceil(paradoxes.length / columns);
+    for (let i = 0; i < paradoxes.length; i += itemsPerColumn) {
+      result.push(paradoxes.slice(i, i + itemsPerColumn));
+    }
+    return result;
   }
   initData() {
     this.getParadoxList();
@@ -180,4 +208,5 @@ export class ParadoxListComponent {
     // Reset any other UI state as needed
     this.detectChanges(); // Trigger change detection after resetting UI
   }
+
 }

@@ -35,7 +35,7 @@ export class MainContentComponent{
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe((event: any) => {
       // Check the activated route and set the alignCenter variable accordingly
-      if (event.url.includes('paradoxes')) {
+      if (event.url.includes('paradox')) {
         this.alignCenter = false; // Don't align center for this route
       } else {
         this.alignCenter = true; // Align center for other routes

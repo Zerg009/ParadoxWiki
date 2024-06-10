@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { HistoryComponent } from './history/history.component';
 import { ParadoxContentComponent } from './paradox-content/paradox-content.component';
+import { ParadoxListComponent } from './paradox-list/paradox-list.component';
 
 export const routes: Routes = [
     // {path: '' , redirectTo: "home", pathMatch: "full" },
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: 'favorites', pathMatch: "full", component: FavoritesComponent },
     { path: 'history', pathMatch: "full", component: HistoryComponent },
     { path: 'paradoxes/:techName', component: ParadoxContentComponent },
+    { path: 'paradox-list', component: ParadoxListComponent },
     { path: '**', component: NotfoundComponent },
 
 ];

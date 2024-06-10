@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Search</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill" class="search-field">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="searchTerm" (input)="search()" placeholder="Search" />
+  </mat-form-field>
+  <div class="search-results" style="max-height: 300px; overflow-y: auto;">
+    <div *ngIf="searchResults.length > 0; else noResults">
+      <div *ngFor="let paradox of searchResults">
+        <h5>{{ paradox.title }}</h5>
+        <!-- <p>{{ paradox.description }}</p> -->
+        <p><em>{{ paradox.author }}</em></p>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+    <ng-template #noResults>
+      <p>No results found.</p>
+    </ng-template>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Close</button>
+</div>
