@@ -44,7 +44,7 @@ body {
     /* Cover the entire viewport with the background image */
     background-position: center;
     /* Center the background image */
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     /* Prevent the background image from repeating */
     /* Add any additional background styles as needed */
 }
@@ -60,7 +60,7 @@ a{
 #unity-container {
     position: relative;
     width: 100%;
-    padding-top: 56.25%;
+    padding-top: 54.25%;
     /* Aspect ratio: 16:9 (height:width = 9:16) */
     overflow: hidden;
     /* Ensures no overflow issues */

@@ -1,13 +1,23 @@
 <div class="container">
-    <div class="text-center">
+    <div class="text-center title-text lilac-color mb-3">
         <h1>{{ currentParadox.title }}</h1>
     </div>
-    <div>
-        <p>{{ currentParadox.description }}</p>
+    <div class="description-text ">
+        <p class="mb-3">{{ currentParadox.description }}</p>
     </div>
-    <div class="video-container">
-        <!-- Your video player here -->
-    </div>
+    <ng-container *ngIf="isGame">
+        <app-game [currentParadox]="currentParadox"></app-game>
+      </ng-container>
+      <ng-container *ngIf="!isGame">
+        <div *ngIf="currentParadox">
+            <ng-container *ngIf="isBrowser">
+                <app-videoplayer [videoName]="currentParadox.tech_name"></app-videoplayer>
+              </ng-container>
+        </div>
+        <div *ngIf="!currentParadox">
+            <p>Loading...</p>
+          </div>
+      </ng-container>
     <div class="text-center mt-3">
         <button class="btn btn-primary" (click)="playOrWatchVideo()">{{ buttonText }}</button>
     </div>

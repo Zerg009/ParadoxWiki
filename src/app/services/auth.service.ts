@@ -111,6 +111,11 @@ export class AuthService {
     
     //localStorage.removeItem('firstname');
     this.isAuthenticated = false;
+
+    const sessionStorage = getSessionStorage();
+    if (sessionStorage) {
+      sessionStorage.removeItem('jwtToken'); // Save the token in session storage for non-persistence
+    }
     // Notify subscribers about logout
     this.logoutSubject.next();
 

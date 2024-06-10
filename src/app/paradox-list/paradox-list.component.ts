@@ -5,19 +5,19 @@ import { ParadoxService } from '../services/paradox.service';
 import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-paradox-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [],
   templateUrl: './paradox-list.component.html',
   styleUrl: './paradox-list.component.css'
 })
 export class ParadoxListComponent {
-  paradoxes: ParadoxInfo[];
+  paradoxes: ParadoxInfo[] = [];
   favoriteParadoxes: ParadoxInfo[] = [];
   // Subscription to logout events
   private logoutSubscription: Subscription;
@@ -32,8 +32,8 @@ export class ParadoxListComponent {
 
   ngOnInit() {
     //console.log('ngOnInit triggered');
-    this.initData();
     this.manageSubscriptions();
+    this.initData();
   }
 
   ngOnDestroy() {
@@ -46,7 +46,7 @@ export class ParadoxListComponent {
       this.authService.logout$.subscribe(() => {
         this.resetUI();
       })
-    );
+    ); 
 
 
     // Subscribe to login events
@@ -63,15 +63,26 @@ export class ParadoxListComponent {
         this.initData();
       })
     );
+    this.subscriptions.add(
+      this.paradoxService.paradoxListChanged$().subscribe(() => {
+        console.log("got paradoxes");
+        
+        this.paradoxes = this.paradoxService.getParadoxList(); // Fetch the data when notified
+      })
+    );
+    
   }
   initData() {
     this.getParadoxList();
     this.getFavoriteParadoxes();
   }
   getParadoxList() {
-    return this.paradoxService.getParadoxList().subscribe(data => {
-      this.paradoxes = data;
-    });
+    // return this.paradoxService.getParadoxList().subscribe(data => {
+    //   this.paradoxes = data;
+    // });
+    // Fetch the initial paradox list
+    this.paradoxService.retrieveParadoxList();
+    //this.paradoxes = this.paradoxService.getParadoxList();
   }
 
   setCurrentParadox(paradox: ParadoxInfo) {
