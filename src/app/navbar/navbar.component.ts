@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
@@ -25,6 +25,7 @@ import { SearchModalComponent } from '../search-modal/search-modal.component';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
   isDropdownOpen: boolean = false;
   languages: string[] = ['EN', 'RO'];
@@ -36,22 +37,29 @@ export class NavbarComponent {
 
   constructor(
     private authService: AuthService,
-     private userService: UserService, 
-     private paradoxService: ParadoxService,
-     public dialog: MatDialog) { }
+    private userService: UserService, 
+    private paradoxService: ParadoxService,
+    public dialog: MatDialog
+  ) 
+  {}
+
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
+
   selectLanguage(language: string) {
     this.selectedLanguage = language;
   }
+
   ngOnInit() {
     this.manageSubscriptions();
   }
+
   ngOnDestroy() {
     // Unsubscribe from all subscriptions to avoid memory leaks
     this.subscriptions.unsubscribe();
   }
+
   manageSubscriptions() {
     // Subscribe to logout events
     this.subscriptions.add(
@@ -106,9 +114,11 @@ export class NavbarComponent {
       })
     )
   }
+
   logout() {
     this.authService.logout();
   }
+
   search() {
     console.log("Search");
     if (this.searchTerm.trim()) {
@@ -117,14 +127,24 @@ export class NavbarComponent {
       });
     }
   }
+
   openSearchModal() {
     const dialogRef = this.dialog.open(SearchModalComponent, {
       width: '600px',
       data: { searchTerm: this.searchTerm }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
   }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      if (document.activeElement === this.searchInput.nativeElement) {
+        this.openSearchModal();
+      }
+    }
+  }
+
 }

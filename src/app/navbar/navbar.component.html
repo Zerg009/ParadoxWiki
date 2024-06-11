@@ -20,7 +20,6 @@
                 routerLink="paradox-list"
                 >
                 Paradoxes
-                    <!-- <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i> -->
             </a>
             
             <a 
@@ -29,40 +28,26 @@
                 routerLink="favorites"
                 >
                 Favorites
-                    <!-- <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i> -->
             </a>
-            <!-- <li class="nav-item dropdown">
-                <a 
-                    class="nav-link dropdown-toggle" 
-                    id="paradoxesDropdown" role="button"
-                    (click)="toggleDropdown()" 
-                    [attr.aria-expanded]="isDropdownOpen" 
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    routerLink="paradox-list"
-                    >
-                    Paradoxes
-                </a>
 
-
-            </li> -->
         </div>
 
         <!-- Right side elements -->
         <div class="d-flex pt-4">
 
             <div class="search-wrapper">
-                <input type="search" placeholder="Search" [(ngModel)]="searchTerm"/>
-                <button class="search-btn" (click)="openSearchModal()">
+                <input #searchInput type="search" placeholder="Search" [(ngModel)]="searchTerm"  (keydown)="onKeyDown($event)"/>
+                <button class="search-btn"  (click)="openSearchModal()">
                     <i id="search-icon" class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
+
             <div class="history d-flex align-items-center">
                 <a class="btn btn-transparent  nav-link" routerLink="history" id="languageDropdown" role="button">
                     <i class="fa fa-history" aria-hidden="true"></i>
                 </a>
-
             </div>
+
             <!-- Language -->
             <div class="dropdown">
                 <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown"

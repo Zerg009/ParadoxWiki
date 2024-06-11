@@ -33,3 +33,6 @@
 .custom-btn:hover{
     color: var(--pink-color)
 }
+.btn{
+    border-radius: 30px;
+}
