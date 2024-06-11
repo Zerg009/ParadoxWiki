@@ -4,7 +4,7 @@
     font-weight: bold;
 }
 .description-text{
-
+    font-family: 'Open Sans';
 }
 .title-container {
     position: relative;
@@ -22,4 +22,14 @@
 .favorite{
     color: yellow;
     cursor: pointer;
+}
+.custom-btn{
+    width: 30%;
+    background-image: linear-gradient(to right, #5170FF 40%, #FF66C4);
+    text-transform: uppercase;
+    font-family: 'Open Sans';
+    font-weight: 500;
+}
+.custom-btn:hover{
+    color: var(--pink-color)
 }
