@@ -30,4 +30,5 @@ export class UserService {
   getUserFirstName(){
     return this.httpClient.get<any>(this.baseURL + 'user/firstname');
   }
+  
 }

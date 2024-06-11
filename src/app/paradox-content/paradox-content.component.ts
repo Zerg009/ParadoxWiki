@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { GameComponent } from '../game/game.component';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, of, switchMap, take } from 'rxjs';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
 })
 export class ParadoxContentComponent {
   isGame: boolean = false;
-  currentParadox: ParadoxInfo = {} as ParadoxInfo;
+  currentParadox: ParadoxInfo;
   buttonText: string = 'Play Game';
   favoriteParadoxes: ParadoxInfo[] = [];
   private subscriptions: Subscription = new Subscription();
@@ -41,12 +41,23 @@ export class ParadoxContentComponent {
   ngOnInit(): void {
     this.manageSubscriptions();
     this.initData();
-    
-
   }
 
   initData() {
     this.getFavoriteParadoxes();
+    this.loadParadoxList();
+  }
+  setCurrentParadox(){
+    const currentRoute = this.router.url;
+    const techName = currentRoute.split('/').pop();
+    if (techName) {
+      const paradox = this.paradoxService.getParadoxFromList(techName);
+      if (paradox) {
+        this.currentParadox = paradox;
+      } else {
+        // Handle scenario where paradox is not found
+      }
+    }
   }
   ngOnDestroy() {
     // Unsubscribe from all subscriptions to avoid memory leaks
@@ -59,9 +70,45 @@ export class ParadoxContentComponent {
     this.isGame = !this.isGame;
     this.updateButtonText();
   }
+  
+  manageSubscriptions() {
+    // Subscribe to logout events
+    this.subscriptions.add(
+      this.authService.logout$.subscribe(() => {
+        this.resetUI();
+      })
+    );
+
+    // Subscribe to login events
+    this.subscriptions.add(
+      this.authService.login$.subscribe(() => {
+        // Simulate page refresh by navigating to the current route
+        this.initData();
+      })
+    );
+    // Subscribe to verify events
+    this.subscriptions.add(
+      this.authService.verify$.subscribe(() => {
+        // this.getFavoriteParadoxes();
+        this.initData();
+      })
+    );
+    this.subscriptions.add(
+      this.paradoxService.paradoxListChanged$().subscribe(()=>{
+        // the list got loaded, now can set the current paradox
+        if(!this.currentParadox){
+          this.setCurrentParadox();
+        }
+      })
+    );
+  }
+
   addToFavorite(paradox: ParadoxInfo) {
     if (!this.authService.isAuthenticated)
+    {
+      this.authService.showNotLoggedInDialog("You should be logged in to add a paradox  to favorite!", "Authentication needed");
       return;
+    }
     if (this.isFavorite(paradox)) {
       // this.favoriteParadoxes = this.favoriteParadoxes.filter(fav => fav.paradox_id !== paradox.paradox_id);
       this.removeFavorite(paradox);
@@ -83,52 +130,7 @@ export class ParadoxContentComponent {
       });
     }
     //this.getFavoriteParadoxes();
-
     this.detectChanges();
-  }
-  manageSubscriptions() {
-    // Subscribe to logout events
-    this.subscriptions.add(
-      this.authService.logout$.subscribe(() => {
-        this.resetUI();
-      })
-    );
-
-
-    // Subscribe to login events
-    this.subscriptions.add(
-      this.authService.login$.subscribe(() => {
-        // Simulate page refresh by navigating to the current route
-        this.initData();
-      })
-    );
-    // Subscribe to verify events
-    this.subscriptions.add(
-      this.authService.verify$.subscribe(() => {
-        // this.getFavoriteParadoxes();
-        this.initData();
-      })
-    );
-    this.subscriptions.add(
-      this.route.paramMap.subscribe(params => {
-        const techName = params.get('techName');
-        if (techName) {
-          //this.paradoxService.paradoxListChanged$().subscribe(() => {
-          const paradox = this.paradoxService.getParadoxFromList(techName);
-          if (paradox) {
-            this.currentParadox = paradox;
-            //console.log('Paradox found:', this.currentParadox); // Debug log
-          }
-          else {
-            this.router.navigate(['']);
-          }
-          //});
-        }
-        // Use techName to fetch and display the corresponding paradox content
-        // console.log(techName);
-      })
-    );
-
   }
   removeFavorite(paradox: ParadoxInfo) {
     // Find the index of the paradox to be removed
@@ -155,7 +157,6 @@ export class ParadoxContentComponent {
       });
     }
   }
-
   getFavoriteParadoxes() {
     if (!this.authService.isAuthenticated)
       return;
@@ -175,12 +176,27 @@ export class ParadoxContentComponent {
       }
     });
   }
-
   isFavorite(paradox: ParadoxInfo): boolean {
     if (this.favoriteParadoxes && this.favoriteParadoxes.length > 0)
       return this.favoriteParadoxes.some(fav => fav.paradox_id === paradox.paradox_id);
     return false;
   }
+  loadParadoxList() {
+    // check if the paradox list is already set
+    if (!this.paradoxService.getParadoxList()) 
+      // if not, then get it
+      this.paradoxService.retrieveParadoxList();
+    else{
+      // if it is set, then set the current paradox
+      if(!this.currentParadox)
+      {
+        this.setCurrentParadox();
+      }
+    }
+  }
+
+  
+
   // Method to trigger change detection
   detectChanges() {
     this.cdr.detectChanges();

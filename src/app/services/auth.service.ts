@@ -141,6 +141,25 @@ export class AuthService {
       data: { message, title }
     });
   }
+
+  // used externally to show errors
+  showNotLoggedInDialog(message: string, title: string): void {
+    const dialogRef = this.dialog.open(AngularDialogComponent, {
+      width: '500px',
+      data: { message, title }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle confirm action
+        this.router.navigate(['/login']);
+      } else {
+        // Handle cancel action
+        console.log('Dialog cancelled');
+      }
+    });
+  }
+  
+}
   // decodeToken(token: string): any {
   //   try {
   //     return jwt_decode(token);
@@ -149,7 +168,6 @@ export class AuthService {
   //     return null;
   //   }
   // } 
-}
 function getSessionStorage(): Storage | null {
   return typeof window !== 'undefined' ? window.sessionStorage : null;
 }
