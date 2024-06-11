@@ -60,6 +60,7 @@ body {
 }
 a{
     cursor: pointer;
+    color: #fff;
 }
 #unity-container {
     position: relative;

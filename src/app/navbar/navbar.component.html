@@ -15,7 +15,23 @@
 
         <!-- Paradoxes Dropdown in the Center -->
         <div class="navbar-nav mx-auto pt-4">
-            <li class="nav-item dropdown">
+            <a 
+                class="nav-link" 
+                routerLink="paradox-list"
+                >
+                Paradoxes
+                    <!-- <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i> -->
+            </a>
+            
+            <a 
+                *ngIf="isAuthenticated"
+                class="nav-link" 
+                routerLink="favorites"
+                >
+                Favorites
+                    <!-- <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i> -->
+            </a>
+            <!-- <li class="nav-item dropdown">
                 <a 
                     class="nav-link dropdown-toggle" 
                     id="paradoxesDropdown" role="button"
@@ -26,16 +42,10 @@
                     routerLink="paradox-list"
                     >
                     Paradoxes
-                    <i class="fas" [ngClass]="isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                 </a>
-                <!-- <ul class="dropdown-menu" aria-labelledby="paradoxesDropdown">
-                    <li><a class="dropdown-item" routerLink="">Paradox 1</a></li>
-                    <li><a class="dropdown-item" routerLink="">Paradox 2</a></li>
-                    <li><a class="dropdown-item" routerLink="">Paradox 3</a></li>
-                </ul> -->
-                <!-- <app-paradox-list></app-paradox-list> -->
 
-            </li>
+
+            </li> -->
         </div>
 
         <!-- Right side elements -->

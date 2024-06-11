@@ -119,6 +119,9 @@
 .nav-link:hover {
   color: #d9acdf
 }
+.nav-link{
+  color: #fff
+}
 /* Chevron icon styling */
 .btn-transparent i {
   transition: transform 0.3s;
