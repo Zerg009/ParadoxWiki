@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ParadoxInfo } from '../types/paradox-info';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-history',
@@ -14,6 +15,7 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './history.component.css'
 })
 export class HistoryComponent {
+  private subscriptions: Subscription = new Subscription();
   lastThreeParadoxes: ParadoxInfo[] = [
     {
       "paradox_id": 2,
@@ -43,41 +45,52 @@ export class HistoryComponent {
   constructor(private userService: UserService, private authService: AuthService) { }
   ngOnInit() {
     this.getParadoxHistory();
+    this.manageSubscriptions();
+  }
+  manageSubscriptions() {
+    // Subscribe to logout events
+    this.subscriptions.add(
+      this.authService.verify$.subscribe(() => {
+        if (!this.authService.isAuthenticated)
+          return;
+        this.userService.getUserHistory().subscribe({
+          next: response => {
+            console.log('paradox history retrieved:', response);
+            // Optionally, perform any additional actions after successfully adding a favorite
+          },
+          error: error => {
+            console.error('Error getting paradox history:', error);
+          },
+          complete: () => {
+
+          }
+        })
+      })
+    )
+
   }
   getParadoxHistory() {
-    // this.userService.getUserHistory().subscribe({
-    //   next: response => {
-    //     console.log('paradox history retrieved:', response);
-    //     // Optionally, perform any additional actions after successfully adding a favorite
-    //   },
-    //   error: error => {
-    //     console.error('Error getting paradox history:', error);
-    //   },
-    //   complete: () => {
 
-    //   }
-    // });
-    //   this.authService.verify$.subscribe(() => {
-    //     // this.getFavoriteParadoxes();
-    //     if(!this.authService.isAuthenticated)
-    //       return;
-    //     this.userService.getFavoriteParadoxes().subscribe({
-    //       next: (favoriteParadoxes: any) => {
-    //         console.log('Favorite paradoxes:', favoriteParadoxes);
+    this.authService.verify$.subscribe(() => {
+      // this.getFavoriteParadoxes();
+      if (!this.authService.isAuthenticated)
+        return;
+      this.userService.getFavoriteParadoxes().subscribe({
+        next: (favoriteParadoxes: any) => {
+          console.log('Favorite paradoxes:', favoriteParadoxes);
 
-    //         // Optionally, assign the retrieved data to a property in your component or service
-    //       },
-    //       error: (error: any) => {
-    //         console.error('Error fetching favorite paradoxes:', error);
-    //         // Optionally, handle the error or show a notification to the user
-    //       },
-    //       complete: () => {
-    //         console.log('Get favorite paradoxes request completed.');
-    //       }
-    //     });
-    //   }
-    //   )
-    // }
-
+          // Optionally, assign the retrieved data to a property in your component or service
+        },
+        error: (error: any) => {
+          console.error('Error fetching favorite paradoxes:', error);
+          // Optionally, handle the error or show a notification to the user
+        },
+        complete: () => {
+          console.log('Get favorite paradoxes request completed.');
+        }
+      });
+    }
+    )
   }
+
 }

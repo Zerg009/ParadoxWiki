@@ -101,6 +101,12 @@ export class ParadoxContentComponent {
         }
       })
     );
+    this.subscriptions.add(
+      this.route.paramMap.subscribe(params => {
+        this.setCurrentParadox();
+      })
+    );
+    
   }
 
   addToFavorite(paradox: ParadoxInfo) {

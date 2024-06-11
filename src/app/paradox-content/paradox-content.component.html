@@ -1,34 +1,28 @@
 <div class="container">
-    <!-- <div class="text-center title-text lilac-color mb-3">
-        <h1>{{ currentParadox.title }}</h1>
-        <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(currentParadox), 'fa-solid': isFavorite(currentParadox)}"
-            (click)="addToFavorite(currentParadox)">
-        </i>
-    </div> -->
-    <div class="title-text title-container d-flex justify-center align-items-center lilac-color mb-3">
-        <h1 class="">{{ currentParadox.title }}</h1>
-        <i class="fa-star favorite" [ngClass]="{'fa-regular': !isFavorite(currentParadox), 'fa-solid': isFavorite(currentParadox)}"
-            (click)="addToFavorite(currentParadox)">
-        </i>
-    </div>
-    <div class="description-text ">
-        <p class="mb-3">{{ currentParadox.description }}</p>
-
-    </div>
-    <ng-container *ngIf="isGame">
-        <app-game [currentParadox]="currentParadox"></app-game>
-      </ng-container>
-      <ng-container *ngIf="!isGame">
-        <div *ngIf="currentParadox">
+    <div *ngIf="currentParadox">
+        <div class="title-text title-container d-flex justify-center align-items-center lilac-color mb-3">
+            <h1 class="">{{ currentParadox.title }}</h1>
+            <i class="fa-star favorite"
+                [ngClass]="{'fa-regular': !isFavorite(currentParadox), 'fa-solid': isFavorite(currentParadox)}"
+                (click)="addToFavorite(currentParadox)">
+            </i>
+        </div>
+        <div class="description-text ">
+            <p class="mb-3">{{ currentParadox.description }}</p>
+        </div>
+        <ng-container *ngIf="isGame">
+            <app-game [currentParadox]="currentParadox"></app-game>
+        </ng-container>
+        <ng-container *ngIf="!isGame">
             <ng-container *ngIf="isBrowser">
                 <app-videoplayer [videoName]="currentParadox.tech_name"></app-videoplayer>
-              </ng-container>
+            </ng-container>
+        </ng-container>
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" (click)="playOrWatchVideo()">{{ buttonText }}</button>
         </div>
-        <div *ngIf="!currentParadox">
-            <p>Loading...</p>
-          </div>
-      </ng-container>
-    <div class="text-center mt-3">
-        <button class="btn btn-primary" (click)="playOrWatchVideo()">{{ buttonText }}</button>
+    </div>
+    <div *ngIf="!currentParadox">
+        <p>Loading...</p>
     </div>
 </div>

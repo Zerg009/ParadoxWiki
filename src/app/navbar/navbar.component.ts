@@ -48,6 +48,10 @@ export class NavbarComponent {
   ngOnInit() {
     this.manageSubscriptions();
   }
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions to avoid memory leaks
+    this.subscriptions.unsubscribe();
+  }
   manageSubscriptions() {
     // Subscribe to logout events
     this.subscriptions.add(

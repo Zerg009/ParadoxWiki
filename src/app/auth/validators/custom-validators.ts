@@ -12,10 +12,9 @@ export function strongPasswordValidator(): ValidatorFn {
     return null;
   };
 }
-
 export function passwordMatchValidator(group: AbstractControl) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
-  
+
     return password === confirmPassword ? null : { passwordMismatch: true };
 }
