@@ -1,7 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+:root{
+    --pink-color:  #D9ACDF;
+    --lilac-color:  #A297ED;
+    --violet-color:  #794CEC;
+}
 * {
     margin: 0;
     padding: 0;

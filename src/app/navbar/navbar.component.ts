@@ -116,6 +116,7 @@ export class NavbarComponent {
   openSearchModal() {
     const dialogRef = this.dialog.open(SearchModalComponent, {
       width: '600px',
+      data: { searchTerm: this.searchTerm }
     });
 
     dialogRef.afterClosed().subscribe(result => {

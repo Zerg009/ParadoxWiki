@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ParadoxService } from '../services/paradox.service';
 import { ParadoxInfo } from '../types/paradox-info';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search-modal',
@@ -19,7 +20,8 @@ import { ParadoxInfo } from '../types/paradox-info';
     MatButtonModule,
     MatDividerModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './search-modal.component.html',
   styleUrl: './search-modal.component.css'
@@ -31,8 +33,14 @@ export class SearchModalComponent {
   constructor(
     private paradoxService: ParadoxService,
     public dialogRef: MatDialogRef<SearchModalComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public dialog_data: any
+  ) {
+    this.searchTerm = dialog_data.searchTerm;
+    if(this.searchTerm !==''){
+      this.search();
+    }
+  }
 
   search() {
     if (this.searchTerm.trim()) {
@@ -44,5 +52,9 @@ export class SearchModalComponent {
 
   close() {
     this.dialogRef.close();
+  }
+  routeToParadox(paradoxName:string){
+    this.router.navigate(["/paradoxes/" +paradoxName]);
+    this.close();
   }
 }
