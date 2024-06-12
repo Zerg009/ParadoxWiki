@@ -42,7 +42,7 @@
                 </button>
             </div>
 
-            <div class="history d-flex align-items-center">
+            <div class="history d-flex align-items-center" *ngIf="isAuthenticated">
                 <a class="btn btn-transparent  nav-link" routerLink="history" id="languageDropdown" role="button">
                     <i class="fa fa-history" aria-hidden="true"></i>
                 </a>

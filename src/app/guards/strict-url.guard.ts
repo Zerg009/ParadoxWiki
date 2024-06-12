@@ -1,25 +1,16 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StrictUrlGuard implements CanActivate {
-  constructor(private router: Router) { }
+export const strictUrlGuard: CanActivateFn = (route, state) => {
+  const router = inject(Router);
+  const url = state.url;
+  const regex = /^\/paradoxes\/[^\/]+$/; // Matches /paradoxes/paradoxName
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    const url = state.url;
-    const regex = /^\/paradoxes\/[^\/]+$/; // Matches /paradoxes/paradoxName
-
-    if (regex.test(url)) {
-      return true;
-    } else {
-      // Navigate to a 404 page or a default route if the URL doesn't match the pattern
-      this.router.navigate(['/not-found']);
-      return false;
-    }
+  if (regex.test(url)) {
+    return true;
+  } else {
+    // Navigate to a 404 page or a default route if the URL doesn't match the pattern
+    router.navigate(['/not-found']);
+    return false;
   }
-}
+};

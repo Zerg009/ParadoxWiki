@@ -17,7 +17,7 @@
         <div class="d-flex align-items-center" >
           <div class="column" *ngFor="let column of splitIntoColumns(group.paradoxes, 3)">
             <ul>
-              <li *ngFor="let paradox of column"> <a routerLink="/paradoxes/{{paradox.tech_name}}">{{ paradox.title }}</a> </li>
+              <li *ngFor="let paradox of column"> <a routerLink="/paradoxes/{{paradox.tech_name}}" (click)="addToHistory(paradox)">{{ paradox.title }}</a> </li>
             </ul>
           </div>
         </div>

@@ -168,7 +168,7 @@ export class ParadoxContentComponent {
       return;
     this.userService.getFavoriteParadoxes().subscribe({
       next: (favoriteParadoxes: any) => {
-        console.log('Favorite paradoxes:', favoriteParadoxes);
+        //console.log('Favorite paradoxes:', favoriteParadoxes);
         this.favoriteParadoxes = favoriteParadoxes;
         // Optionally, assign the retrieved data to a property in your component or service
       },

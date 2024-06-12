@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ParadoxService } from './services/paradox.service';
+import { RouteListenerService } from './services/route-listener.service';
 
 
 @Component({
@@ -46,7 +47,11 @@ export class AppComponent {
   // showLogin: boolean = false;
   // showRegister: boolean = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private paradoxService: ParadoxService) {}
+  constructor(
+    private modalService: NgbModal, 
+    private authService: AuthService, 
+    private paradoxService: ParadoxService, 
+    private routeListenerService: RouteListenerService) {}
 
   public open(modal: any, authService: AuthService): void {
     this.modalService.open(modal);

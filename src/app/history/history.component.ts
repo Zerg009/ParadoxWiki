@@ -6,6 +6,7 @@ import { ParadoxInfo } from '../types/paradox-info';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
+import { UserHistory } from '../types/user-history';
 
 @Component({
   selector: 'app-history',
@@ -16,46 +17,51 @@ import { Subscription } from 'rxjs';
 })
 export class HistoryComponent {
   private subscriptions: Subscription = new Subscription();
-  lastThreeParadoxes: ParadoxInfo[] = [
-    {
-      "paradox_id": 2,
-      "title": "Schrodingers Car",
-      "author": "Unknown",
-      "description": "Some description",
-      "tech_name": "SchrodingersCat",
-      "is_favorite": true
-    },
-    {
-      "paradox_id": 4,
-      "title": "Pinocchio",
-      "author": "Unknown",
-      "description": "Am I lying?",
-      "tech_name": "Pinocchio",
-      "is_favorite": true
-    },
-    {
-      "paradox_id": 5,
-      "title": "some really long name",
-      "author": "Unknown",
-      "description": "Am I lying?",
-      "tech_name": "Pinocchio",
-      "is_favorite": true
-    }
-  ];
+  // lastThreeParadoxes: ParadoxInfo[] = [
+  //   {
+  //     "paradox_id": 2,
+  //     "title": "Schrodingers Car",
+  //     "author": "Unknown",
+  //     "description": "Some description",
+  //     "tech_name": "SchrodingersCat",
+  //     "is_favorite": true
+  //   },
+  //   {
+  //     "paradox_id": 4,
+  //     "title": "Pinocchio",
+  //     "author": "Unknown",
+  //     "description": "Am I lying?",
+  //     "tech_name": "Pinocchio",
+  //     "is_favorite": true
+  //   },
+  //   {
+  //     "paradox_id": 5,
+  //     "title": "some really long name",
+  //     "author": "Unknown",
+  //     "description": "Am I lying?",
+  //     "tech_name": "Pinocchio",
+  //     "is_favorite": true
+  //   }
+  // ];
+  lastThreeParadoxes: ParadoxInfo[] =[];
   constructor(private userService: UserService, private authService: AuthService) { }
   ngOnInit() {
-    this.getParadoxHistory();
+    //this.getParadoxHistory();
     this.manageSubscriptions();
   }
   manageSubscriptions() {
     // Subscribe to logout events
     this.subscriptions.add(
-      this.authService.verify$.subscribe(() => {
-        if (!this.authService.isAuthenticated)
-          return;
+      // this.authService.verify$.subscribe(() => {
+        // if (!this.authService.isAuthenticated)
+        //   return;
         this.userService.getUserHistory().subscribe({
-          next: response => {
-            console.log('paradox history retrieved:', response);
+          next: (usersHistory: UserHistory[]) => {
+            this.lastThreeParadoxes = usersHistory
+            .sort((a, b) => new Date(b.visitTimestamp).getTime() - new Date(a.visitTimestamp).getTime()) // Sort userHistory objects
+            .slice(0, 3) // Take the first three
+            .map(history => history.paradox);
+            //console.log('paradox history retrieved:', usersHistory);
             // Optionally, perform any additional actions after successfully adding a favorite
           },
           error: error => {
@@ -65,32 +71,32 @@ export class HistoryComponent {
 
           }
         })
-      })
+      // })
     )
 
   }
-  getParadoxHistory() {
+  // getParadoxHistory() {
 
-    this.authService.verify$.subscribe(() => {
-      // this.getFavoriteParadoxes();
-      if (!this.authService.isAuthenticated)
-        return;
-      this.userService.getFavoriteParadoxes().subscribe({
-        next: (favoriteParadoxes: any) => {
-          console.log('Favorite paradoxes:', favoriteParadoxes);
+  //   this.authService.verify$.subscribe(() => {
+  //     // this.getFavoriteParadoxes();
+  //     if (!this.authService.isAuthenticated)
+  //       return;
+  //     this.userService.getUserHistory().subscribe({
+  //       next: (UserHistory: any) => {
+  //         console.log('Favorite paradoxes:', UserHistory);
 
-          // Optionally, assign the retrieved data to a property in your component or service
-        },
-        error: (error: any) => {
-          console.error('Error fetching favorite paradoxes:', error);
-          // Optionally, handle the error or show a notification to the user
-        },
-        complete: () => {
-          console.log('Get favorite paradoxes request completed.');
-        }
-      });
-    }
-    )
-  }
+  //         // Optionally, assign the retrieved data to a property in your component or service
+  //       },
+  //       error: (error: any) => {
+  //         console.error('Error fetching favorite paradoxes:', error);
+  //         // Optionally, handle the error or show a notification to the user
+  //       },
+  //       complete: () => {
+  //         console.log('Get favorite paradoxes request completed.');
+  //       }
+  //     });
+  //   }
+  //   )
+  // }
 
 }

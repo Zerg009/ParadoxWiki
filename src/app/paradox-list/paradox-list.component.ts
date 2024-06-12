@@ -208,5 +208,10 @@ export class ParadoxListComponent {
     // Reset any other UI state as needed
     this.detectChanges(); // Trigger change detection after resetting UI
   }
-
+  addToHistory(paradox: ParadoxInfo){
+    this.userService.addToHistory(paradox.paradox_id).subscribe((data)=>{
+      console.log(data);
+      
+    });
+  }
 }
