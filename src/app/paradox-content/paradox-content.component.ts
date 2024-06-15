@@ -9,12 +9,22 @@ import { GameComponent } from '../game/game.component';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { Observable, Subscription, of, switchMap, take } from 'rxjs';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-paradox-content',
   standalone: true,
-  imports: [VideoplayerComponent, CommonModule, FormsModule, GameComponent, RouterModule],
+  imports: [
+    VideoplayerComponent, 
+    CommonModule, 
+    FormsModule, 
+    GameComponent, 
+    RouterModule,
+    MatInputModule,
+
+  ],
   templateUrl: './paradox-content.component.html',
   styleUrl: './paradox-content.component.css'
 })

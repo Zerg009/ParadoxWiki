@@ -146,6 +146,7 @@
   overflow: hidden;
   position: relative;
   transition: width 400ms ease-in-out;
+  
 }
 
 .search-wrapper:hover {
@@ -228,4 +229,38 @@ input[type="search"]::-webkit-search-cancel-button {
 /* Hides the clear button in Firefox */
 input[type="search"]::-moz-search-cancel-button {
   display: none;
+}
+
+
+/* @media (max-width: 1170px) {
+  .search-wrapper {
+      flex: 1 1 100%; 
+
+  .search-wrapper input[type="search"] {
+      width: 100%; /
+  }
+
+  .search-wrapper input[type="search"]:focus {
+      width: 100%; 
+  }
+
+  .d-flex.pt-4 {
+      justify-content: space-between; 
+  }
+} */
+/* Further adjustments for very small screens */
+@media (max-width: 600px) {
+  .authentication-buttons,
+  .history,
+  .dropdown {
+      flex: 1 1 100%; /* Take full width on very small screens */
+      margin-bottom: 10px; /* Add some space between elements */
+  }
+
+  .authentication-buttons button,
+  .history a,
+  .dropdown a {
+      width: 100%; /* Full width buttons */
+      text-align: center; /* Center text */
+  }
 }

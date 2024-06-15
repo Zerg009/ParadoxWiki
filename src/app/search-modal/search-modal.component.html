@@ -8,7 +8,6 @@
     <div *ngIf="searchResults.length > 0; else noResults">
       <div *ngFor="let paradox of searchResults">
         <h5><a (click)="routeToParadox(paradox.tech_name)"> {{ paradox.title }} </a></h5>
-        <!-- <p>{{ paradox.description }}</p> -->
         <p><em>{{ paradox.author }}</em></p>
         <mat-divider></mat-divider>
       </div>

@@ -8,5 +8,5 @@
     margin-top: 10px;
     line-height: 25px;
 
-    color: #FAE5FD;
+    color: var(--light-pink-color);
 }

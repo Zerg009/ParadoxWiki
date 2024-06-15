@@ -3,6 +3,8 @@
 @tailwind utilities;
 :root{
     --pink-color:  #D9ACDF;
+    --light-pink-color:  #FAE5FD;
+
     --lilac-color:  #A297ED;
     --violet-color:  #794CEC;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoginForm, RegisterForm } from '../types/Auth';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject, catchError, map, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,12 +24,12 @@ export class AuthService {
   // Private subjects for login and logout events
   private loginSubject = new Subject<void>();
   private logoutSubject = new Subject<void>();
-  private verifySubject = new Subject<void>();
+  private verifySubject = new Subject<boolean>();
 
   // Public observables for login and logout events
   public login$: Observable<void> = this.loginSubject.asObservable();
   public logout$: Observable<void> = this.logoutSubject.asObservable();
-  public verify$: Observable<void> = this.verifySubject.asObservable();
+  // public verify$: Observable<boolean> = this.verifySubject.asObservable();
 
   // // Getter for isShowingLogin
   // get isShowingLogin(): boolean {
@@ -54,29 +54,25 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private cookieService: CookieService, private dialog: MatDialog, private router: Router) { }
 
   login(form: LoginForm) {
-    // Notify subscribers about login event
-
     this.httpClient.post(`${this.baseURL}/authenticate`, form).subscribe({
       next: (response: any) => {
         this.isAuthenticated = true;
-        // this.isShowingLogin = false;
-        const token = response.token; // Adjust according to your API response
-        console.log('Logged in!', token);
-        if(this.rememberMe)
-          this.saveToken(token);
-        else{
-          const sessionStorage = getSessionStorage();
-          if (sessionStorage) {
-            sessionStorage.setItem('jwtToken', token); // Save the token in session storage for non-persistence
-          }
+        const token = response.token;
 
+        if (this.rememberMe)
+          this.saveToken(token);
+        else {
+          const sessionStorage = this.getSessionStorage();
+          if (sessionStorage) {
+            sessionStorage.setItem('jwtToken', token); 
+          }
         }
+
+        // Notify subscribers about login event
+        this.loginSubject.next(); 
         this.router.navigate(['/']);
-         
-        this.loginSubject.next(); // Notify subscribers about login event
       },
       error: (error: any) => {
-        console.error('Authentication error:', error);
         this.showError('Invalid email or password!', 'Authentication Error');
       }
     });
@@ -86,33 +82,47 @@ export class AuthService {
     return this.httpClient.post(`${this.baseURL}/register`, form);
 
   }
+  verify$():Observable<boolean>{
+    return this.httpClient.get<{ authenticated: boolean }>('/api/verify-token').pipe(
+      map(response => {
+        this.isAuthenticated = response.authenticated;
+        return this.isAuthenticated;
+      }),
+      catchError(error => {
+        this.isAuthenticated = false;
+        return of(false);
+      })
+    );
+  }
+  
   verifyToken() {
     const token = this.getToken();
-    if(token && token !=='')
-    this.httpClient.post(`${this.baseURL}/verify`, { "token": token }).subscribe({
-      next: (response: any) => {
-        if (response.success)
-          this.isAuthenticated = true;
-        console.log("Cookie token:" + this.getToken());
-        this.verifySubject.next();
-      },
-      error: error => {
-        this.logout();
-        console.log("Not logged in!");
-      },
-      complete: () => {
+    if (token && token !== '')
+      this.httpClient.post(`${this.baseURL}/verify`, { "token": token }).subscribe({
+        next: (response: any) => {
+          if (response.success)
+            this.isAuthenticated = true;
+          console.log("Cookie token:" + this.getToken());
+          this.verifySubject.next(this.isAuthenticated);
+        },
+        error: error => {
+          this.logout();
+          console.log("Not logged in!");
+        },
+        complete: () => {
 
-      }
-    });
+        }
+      });
   }
+
   logout() {
     // Clear the token from the cookie
     this.cookieService.delete('jwtToken');
-    
+
     //localStorage.removeItem('firstname');
     this.isAuthenticated = false;
 
-    const sessionStorage = getSessionStorage();
+    const sessionStorage = this.getSessionStorage();
     if (sessionStorage) {
       sessionStorage.removeItem('jwtToken'); // Save the token in session storage for non-persistence
     }
@@ -120,20 +130,19 @@ export class AuthService {
     this.logoutSubject.next();
 
   }
+
   saveToken(token: string): void {
-    this.cookieService.set('jwtToken', token, 30, "/",'', false); // Expires in 30 day
+    this.cookieService.set('jwtToken', token, 30, "/", '', false); // Expires in 30 day
   }
 
-  // getToken(): string {
-  //   return this.cookieService.get('jwtToken');
-  // }
   getToken(): string | null {
-    const sessionStorage = getSessionStorage();
+    const sessionStorage = this.getSessionStorage();
     if (sessionStorage) {
       return sessionStorage.getItem('jwtToken') || this.cookieService.get('jwtToken');
     }
     return this.cookieService.get('jwtToken');
   }
+
   // used externally to show errors
   showError(message: string, title: string): void {
     this.dialog.open(AngularDialogComponent, {
@@ -158,16 +167,16 @@ export class AuthService {
       }
     });
   }
-  
+
+  getSessionStorage(): Storage | null {
+    return typeof window !== 'undefined' ? window.sessionStorage : null;
+  }
 }
-  // decodeToken(token: string): any {
-  //   try {
-  //     return jwt_decode(token);
-  //   } catch (error) {
-  //     console.error('Error decoding token:', error);
-  //     return null;
-  //   }
-  // } 
-function getSessionStorage(): Storage | null {
-  return typeof window !== 'undefined' ? window.sessionStorage : null;
-}
+// decodeToken(token: string): any {
+//   try {
+//     return jwt_decode(token);
+//   } catch (error) {
+//     console.error('Error decoding token:', error);
+//     return null;
+//   }
+// } 

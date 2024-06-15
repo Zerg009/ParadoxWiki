@@ -12,14 +12,12 @@ import { authGuard } from './guards/auth.guard';
 import { strictUrlGuard } from './guards/strict-url.guard';
 
 export const routes: Routes = [
-    // {path: '' , redirectTo: "home", pathMatch: "full" },
-    // {path: 'home' , component: WelcomePageComponent},
     { path: '', pathMatch: "full", component: WelcomePageComponent},
     { path: 'login', pathMatch: "full", component: LoginComponent },
     { path: 'register', pathMatch: "full", component: RegisterComponent },
     { path: 'favorites', pathMatch: "full", component: FavoritesComponent, canActivate: [authGuard] },
     { path: 'history', pathMatch: "full", component: HistoryComponent,canActivate: [authGuard] },
-    { path: 'paradoxes/:techName', component: ParadoxContentComponent, canActivate: [strictUrlGuard, authGuard] },
+    { path: 'paradoxes/:techName', component: ParadoxContentComponent, canActivate: [strictUrlGuard] },
     { path: 'paradox-list', component: ParadoxListComponent },
     { path: '**', component: NotfoundComponent },
 
