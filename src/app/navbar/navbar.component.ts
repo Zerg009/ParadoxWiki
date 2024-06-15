@@ -15,10 +15,10 @@ import { SearchModalComponent } from '../search-modal/search-modal.component';
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatButtonModule, 
-    RouterModule, 
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    RouterModule,
     ParadoxListComponent
   ],
   templateUrl: './navbar.component.html',
@@ -37,11 +37,10 @@ export class NavbarComponent {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService, 
+    private userService: UserService,
     private paradoxService: ParadoxService,
     public dialog: MatDialog
-  ) 
-  {}
+  ) { }
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -75,9 +74,8 @@ export class NavbarComponent {
         this.isAuthenticated = this.authService.isAuthenticated;
         this.userService.getUserFirstName().subscribe({
           next: (response: any) => {
-            // this.username = response.firstName;
-           // localStorage.setItem('firstname', response.firstname);
-            this.username = response.firstname;
+            if (response && response.firstname !== '')
+              this.username = response.firstname;
 
             return;
           },
@@ -91,24 +89,25 @@ export class NavbarComponent {
     );
     // Subscribe to verify events
     this.subscriptions.add(
-      this.authService.verify$.subscribe({
+      this.authService.verifyToken().subscribe({
         next: (response: any) => {
           this.isAuthenticated = this.authService.isAuthenticated;
 
           this.userService.getUserFirstName().subscribe({
             next: (response: any) => {
               //localStorage.setItem('firstname', response.firstname);
-              this.username = response.firstname;
+              if (response && response !== '')
+                this.username = response.firstname;
               return;
             },
             error: (error: any) => {
-              console.error('Authentication error:', error);
+              //console.error('Authentication error:', error);
               // this.showError('Invalid email or password!', 'Authentication Error');
             }
           });
         },
         error: (error: any) => {
-          console.error('Verify error:', error);
+          //console.error('Verify error:', error);
           // this.showError('Invalid email or password!', 'Authentication Error');
         }
       })

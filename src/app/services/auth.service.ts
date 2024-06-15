@@ -95,24 +95,24 @@ export class AuthService {
     );
   }
   
-  verifyToken() {
+  verifyToken(): Observable<boolean> {
     const token = this.getToken();
-    if (token && token !== '')
-      this.httpClient.post(`${this.baseURL}/verify`, { "token": token }).subscribe({
-        next: (response: any) => {
-          if (response.success)
-            this.isAuthenticated = true;
-          console.log("Cookie token:" + this.getToken());
-          this.verifySubject.next(this.isAuthenticated);
-        },
-        error: error => {
-          this.logout();
-          console.log("Not logged in!");
-        },
-        complete: () => {
-
-        }
-      });
+    if (token && token !== '') {
+      return this.httpClient.post(`${this.baseURL}/verify`, { "token": token }).pipe(
+        map((response: any) => {
+          this.isAuthenticated = response.success;
+          return this.isAuthenticated;
+        }),
+        catchError(error => {
+          console.error('Error verifying token:', error);
+          this.isAuthenticated = false;
+          return of(false); // Return Observable<boolean> with false
+        })
+      );
+    } else {
+      this.isAuthenticated = false;
+      return of(false); // Return Observable<boolean> with false
+    }
   }
 
   logout() {

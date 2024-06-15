@@ -58,7 +58,7 @@ export class ParadoxListComponent {
     );
     // Subscribe to verify events
     this.subscriptions.add(
-      this.authService.verify$.subscribe(() => {
+      this.authService.verifyToken().subscribe(() => {
         // this.getFavoriteParadoxes();
         this.initData();
       })

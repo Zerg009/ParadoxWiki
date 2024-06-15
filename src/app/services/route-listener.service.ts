@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from './user.service';
 import { ParadoxService } from './paradox.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteListenerService {
 
-  constructor(private router: Router, private userService: UserService, private paradoxService: ParadoxService) {
+  constructor(private router: Router, private userService: UserService, private paradoxService: ParadoxService, private authService: AuthService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Check if the current route matches the desired pattern
@@ -17,7 +18,8 @@ export class RouteListenerService {
         const regex = /^\/paradoxes\/[^\/]+$/; // Matches /paradoxes/paradoxName
         if (regex.test(url)) {
           // Execute your function here
-          this.addToHistory(techName);
+          if(authService.isAuthenticated)
+            this.addToHistory(techName);
         }
       }
     });
@@ -31,10 +33,14 @@ export class RouteListenerService {
         // get the paradox and add to history
         const paradox = this.paradoxService.getParadoxFromList(techName);
         if (paradox) {
-          this.userService.addToHistory(paradox.paradox_id).subscribe((data) => {
-            //console.log(data);
+          this.userService.addToHistory(paradox.paradox_id).subscribe({
+            next: (response) => {
 
-          });
+            },
+            error: (error) => {
+
+            }
+          })
         }
       })
     }
