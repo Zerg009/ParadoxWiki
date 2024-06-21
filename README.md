@@ -1,27 +1,66 @@
 # ParadoxWiki
+Proiectul conține mai multe elemente, inclusiv jocuri dezvoltate cu Unity, o aplicație UI și o aplicație backend. Mai jos sunt detaliile pentru fiecare proiect, împreună cu instrucțiuni despre cum să le instalați, compilați și lansați.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.2.
+## Table of Contents
 
-## Development server
+- [Jocuri](#jocuri)
+  - [MontyHall](#montyhall)
+  - [SchrodingersCat](#schrodingerscat)
+  - [ShipOfTheseus](#shipoftheseus)
+- [Aplicație UI](#aplicație-ui)
+- [Aplicație Backend](#aplicație-backend)
+- [Instrucțiuni de Instalare și Lansare](#instrucțiuni-de-instalare-și-lansare)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Repozitorii Github
+#### Jocuri - [MontyHall](https://github.com/Zerg009/MontyHall) - [SchrodingersCat](https://github.com/Zerg009/SchrodingersCat) - [ShipOfTheseus](https://github.com/Zerg009/ShipOfTheseus) 
+#### Aplicații - [Aplicație UI (ParadoxWiki)](https://github.com/Zerg009/ParadoxWiki) - [Aplicație Backend (ParadoxWikiBackend)](https://github.com/Zerg009/ParadoxWikiBackend)
 
-## Code scaffolding
+## Instrucțiuni de Instalare și Lansare
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Jocuri (Unity)
 
-## Build
+Pentru fiecare joc (MontyHall, SchrodingersCat, ShipOfTheseus):
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. **Clonează repository-ul:**
+   git clone <repository-url>
+   Înlocuiește `<repository-url>` cu URL-ul repository-ului respectiv.
 
-## Running unit tests
+2. **Deschide proiectul în Unity:**
+   - Lansează Unity Hub.
+   - Click pe "Add" și navighează la directorul unde ai clonat repository-ul.
+   - Selectează folderul pentru a deschide proiectul în Unity.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. **Compilează și rulează:**
+   - Odată ce proiectul este încărcat în Unity, click pe "File" -> "Build Settings".
+   - Selectează platforma dorită (de ex., PC, Mac & Linux Standalone).
+   - Click pe "Build and Run" pentru a compila și lansa jocul.
 
-## Running end-to-end tests
+### Aplicație UI (Bootstrap, Angular, TailwindCSS)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Clonează repository-ul:**
+   git clone https://github.com/Zerg009/ParadoxWiki
 
-## Further help
+2. **Navighează la directorul proiectului:**
+   cd ParadoxWiki
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+3. **Instalează dependențele:**
+   npm install
+
+4. **Rulează aplicația:**
+   ng serve
+   Aplicația va fi disponibilă la `http://localhost:4200`.
+
+### Aplicație Backend (Java Spring Boot)
+
+1. **Clonează repository-ul:**
+   git clone https://github.com/Zerg009/ParadoxWikiBackend
+
+2. **Navighează la directorul proiectului:**
+   cd ParadoxWikiBackend
+
+3. **Construiește proiectul:**
+   ./mvnw clean install
+
+4. **Rulează aplicația:**
+   ./mvnw spring-boot:run
+   Serviciul backend va rula la `http://localhost:8080`.
