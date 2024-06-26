@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ParadoxService } from './services/paradox.service';
+import { RouteListenerService } from './services/route-listener.service';
 
 
 @Component({
@@ -25,7 +28,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatButtonModule,
     ParadoxListComponent,
     MainContentComponent,
-    AuthModule
+    AuthModule,
+    NavbarComponent
   ],
   providers: [
     AuthInterceptor
@@ -43,9 +47,11 @@ export class AppComponent {
   // showLogin: boolean = false;
   // showRegister: boolean = false;
 
-  constructor(private modalService: NgbModal, private authService: AuthService) {
-
-  }
+  constructor(
+    private modalService: NgbModal, 
+    private authService: AuthService, 
+    private paradoxService: ParadoxService, 
+    private routeListenerService: RouteListenerService) {}
 
   public open(modal: any, authService: AuthService): void {
     this.modalService.open(modal);
@@ -54,22 +60,10 @@ export class AppComponent {
   ngOnInit() {
     this.verifyToken();
   }
+
   verifyToken()
   {
-    this.authService.verifyToken().subscribe({
-      next: response => {
-        this.authService.isAuthenticated = true;
-        console.log("Cookie token:" + this.authService.getToken());
-
-      },
-      error: error => {
-        this.authService.logout();
-        console.log("Not logged in!");
-      },
-      complete: () => {
-
-      }
-    });
+    this.authService.verifyToken();
   }
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated;
@@ -77,18 +71,18 @@ export class AppComponent {
 
   logout() {
     this.authService.logout();
-    this.authService.isAuthenticated = false;
   }
-  showRegisterForm() {
-    this.authService.isShowingRegister = true;
-  }
-  showLoginForm() {
-    this.authService.isShowingLogin = true;
-  }
-  isShowingLogin(): boolean {
-    return this.authService.isShowingLogin;
-  }
-  isShowingRegister(): boolean {
-    return this.authService.isShowingRegister;
-  }
+//   showRegisterForm() {
+//     this.authService.isShowingRegister = true;
+//   }
+//   showLoginForm() {
+//     this.authService.isShowingLogin = true;
+//   }
+//   isShowingLogin(): boolean {
+//     return this.authService.isShowingLogin;
+//   }
+//   isShowingRegister(): boolean {
+//     return this.authService.isShowingRegister;
+//   }
+// }
 }

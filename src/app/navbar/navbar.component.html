@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg navbar-light pt-4">
+    <div class="container-fluid align-items-start">
+        <!-- Logo and Site Name -->
+        <div class="logo d-flex align-items-center">
+            <!-- Logo -->
+            <a class="navbar-brand" routerLink="">
+                <img src="/assets/img/ParadoxWiki_logo.png" alt="Logo" class="logo-image">
+            </a>
+            <!-- Text -->
+            <div class="logo-text">
+                <span class="paradox-text">Paradox</span>
+                <span class="wiki-text">Wiki</span>
+            </div>
+        </div>
+
+        <!-- Paradoxes Dropdown in the Center -->
+        <div class="navbar-nav mx-auto pt-4">
+            <a 
+                class="nav-link" 
+                routerLink="paradox-list"
+                >
+                Paradoxes
+            </a>
+            
+            <a 
+                *ngIf="isAuthenticated"
+                class="nav-link" 
+                routerLink="favorites"
+                >
+                Favorites
+            </a>
+
+        </div>
+
+        <!-- Right side elements -->
+        <div class="d-flex pt-4">
+
+            <div class="search-wrapper">
+                <input #searchInput type="search" placeholder="Search" [(ngModel)]="searchTerm"  (keydown)="onKeyDown($event)"/>
+                <button class="search-btn"  (click)="openSearchModal()">
+                    <i id="search-icon" class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div class="history d-flex align-items-center" *ngIf="isAuthenticated">
+                <a class="btn btn-transparent  nav-link" routerLink="history" id="languageDropdown" role="button">
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <!-- Language -->
+            <div class="dropdown">
+                <a class="btn btn-transparent dropdown-toggle d-flex nav-link" routerLink="" id="languageDropdown"
+                    role="button">
+                    {{ selectedLanguage }} <i class="fas fa-chevron-down ms-1"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                    <li *ngFor="let language of languages">
+                        <a *ngIf="language !== selectedLanguage" class="dropdown-item" routerLink=""
+                            (click)="selectLanguage(language)">{{ language }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Authentication -->
+            <div class="authentication-buttons">
+                <!-- Display login and sign up buttons if user is not authenticated -->
+                <button *ngIf="!isAuthenticated" routerLink="login" mat-button color="primary"
+                    id="login-button">Login</button>
+                <button *ngIf="!isAuthenticated" routerLink="register" mat-stroked-button color="primary"
+                    id="signup-button">Sign Up</button>
+
+                <!-- Display user greeting and sign out button if user is authenticated -->
+                <div *ngIf="isAuthenticated" class="user-greeting">
+                    <span class="hello-text pink-color">Hello, {{ username }}</span> 
+                    <button mat-button color="primary" (click)="logout()">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

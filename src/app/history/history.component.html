@@ -1,0 +1,29 @@
+<div class="container">
+    <h2 class="mb-5 text-2xl">Ultimile paradoxuri accesate</h2>
+    <!-- <div class="last-paradoxes">
+        <div class="paradox" *ngFor="let paradox of lastThreeParadoxes; let i = index">
+            <div class="paradox-content">
+                <div class="number">#{{i+1}}</div>
+                <div class="title d-flex justify-center aling-items-center">{{paradox.title}}</div>
+            </div>
+            <div class="separator"></div>
+            <div class="separator" *ngIf="i !== lastThreeParadoxes.length - 1"></div>
+        </div>
+    </div> -->
+    <div class="container">
+        <div class="row">
+            <div 
+            class="paradox" 
+            *ngFor="let paradox of lastThreeParadoxes; let i = index" 
+            [class]="'col-' + (12 / lastThreeParadoxes.length)"
+            [ngClass]="{'border-right': i < lastThreeParadoxes.length - 1}"
+            >
+                <div class="paradox-content"> 
+                    <div class="number">#{{i+1}}</div>
+                    <div routerLink="/paradoxes/{{paradox.tech_name}}" class="title d-flex justify-center aling-items-center btn btn-transparent">{{paradox.title}}</div>
+                </div>
+                <div class="separator"></div>
+            </div>
+        </div>
+    </div>
+</div>

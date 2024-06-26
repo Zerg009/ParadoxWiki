@@ -1,0 +1,12 @@
+.welcome-text{
+    font-size: 2.5rem;
+    color: #E57EFF;
+}
+
+.exploration-text{
+    font-size: 1.5rem;
+    margin-top: 10px;
+    line-height: 25px;
+
+    color: var(--light-pink-color);
+}

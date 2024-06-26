@@ -1,72 +1,84 @@
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <!-- <div class="flex h-screen justify-center "> -->
-            <div class="modal-header p-0 pb-2" style="border-bottom: 0;">
-                    
-                <button type="button" class="close" (click)="closeForm()">
-                    <i class="fas fa-times"></i>
-                </button>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card p-4" style="width: 100%; max-width: 60%;">
+        <div class="text-center">
+            <img src="/assets/img/register_logo.png" alt="Logo" class="mb-4 mx-auto logo-img">
+        </div>
+        <h3 class="text-center default-text lilac-color login-text mb-2">Register</h3>
+        <form [formGroup]="registerForm" (ngSubmit)="submit()">
+            <div class="form-group mb-4">
+                <label for="email" class="info-text mb-2">*Email</label>
+                <input [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                    type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email">
+
+                <div *ngIf="registerForm.get('email')?.touched || registerForm.get('email')?.dirty">
+                    <div *ngIf="registerForm.get('email')?.errors?.['required']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Email is required</span>
+                    </div>
+
+                    <!-- Error message for invalid email format (default validator) -->
+                    <div *ngIf="registerForm.get('email')?.errors?.['email']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Introduce a valid email like example&#64;gmail.com</span>
+                    </div>
+                </div>
             </div>
-            <form (ngSubmit)="submit()" class="p-2 rounded-lg border" #myForm="ngForm">
-                <h1 class="text-center text-xl">Register</h1>
-                <!-- Email -->
-                <div class="my-3 w-full">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="p-2 rounded w-full border" placeholder="Email address"
-                        [(ngModel)]="form.email" name="email" #email="ngModel" required />
-                </div>
-                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="p-2 bg-red-300 text-red-50">
-                    Email field must be valid!
-                </div>
 
-                <!-- First Name -->
-                <div class="my-3 w-full">
-                    <label for="firstName">First Name</label>
-                    <input type="firstName" id="firstName" class="p-2 rounded w-full border"
-                        placeholder="firstName address" [(ngModel)]="form.firstName" name="firstName"
-                        #firstName="ngModel" required />
-                </div>
-                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
-                    class="p-2 bg-red-300 text-red-50">
-                    First Name field must be valid!
-                </div>
+            <div class="form-group mb-4">
+                <label for="firstName" class="info-text mb-2">*First Name</label>
+                <input
+                    [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                    type="text" id="firstName" class="form-control" formControlName="firstName"
+                    placeholder="Enter first name">
 
-                <!-- Password -->
-                <div class="my-3 w-full">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="p-2 rounded w-full border" placeholder="Password"
-                        [(ngModel)]="form.password" name="password" #password="ngModel" required />
+                <div *ngIf="registerForm.get('firstName')?.touched || registerForm.get('firstName')?.dirty">
+                    <div *ngIf="registerForm.get('firstName')?.errors?.['required']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>First name is required</span>
+                    </div>
                 </div>
-                <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                    class="p-2 bg-red-300 text-red-50">
-                    Password field must be valid!
-                </div>
+            </div>
 
-                <!-- Confirm Password -->
-                <div class="my-3 w-full">
-                    <label for="password">Confirm Password</label>
-                    <input type="password" id="confirmPassword" class="p-2 rounded w-full border" placeholder="Password"
-                        [(ngModel)]="form.confirmPassword" name="confirmPassword" #confirmPassword="ngModel" required />
-                </div>
-                <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
-                    class="p-2 bg-red-300 text-red-50">
-                    Confirm Password field must be valid!
-                </div>
+            <div class="form-group mb-4">
+                <label for="password" class="info-text mb-2">*Password</label>
+                <input type="password" id="password" class="form-control" formControlName="password"
+                    placeholder="Enter password"
+                    [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
 
-                <div class="my-3 w-full">
-                    <button type="submit" [disabled]="myForm.form.invalid"
-                        class="p-2 w-full  bg-orange-400 text-white hover:bg-orange-600">
-                        <ng-container *ngIf="isLoading()">
-                            Loading...
-                        </ng-container>
-                        <ng-container *ngIf="!isLoading()">
-                            Register
-                        </ng-container>
-
-                    </button>
-
+                <div *ngIf="registerForm.get('password')?.touched || registerForm.get('password')?.dirty">
+                    <div *ngIf="registerForm.get('password')?.errors?.['invalidPassword']" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Password must contain at least 8 characters, including uppercase, lowercase, digits, and
+                            special characters.</span>
+                    </div>
                 </div>
-            </form>
-        <!-- </div> -->
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="confirmPassword" class="info-text mb-2">*Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
+                    placeholder="Confirm password"
+                    [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+
+                <div *ngIf="registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty">
+                    <div *ngIf="registerForm.hasError('passwordMismatch')" class="text-danger mt-1">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Passwords do not match</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center d-flex justify-content-start align-items-center pb-3">
+                <a routerLink="/login" class="d-block violet-color question-text btn btn-transparent pl-0">Already have
+                        an account?</a>
+                <!-- <a routerLink="/password-recovery"
+                        class="d-block violet-color question-text btn btn-transparent">Forgot password?</a> -->
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <button type="submit" class="btn btn-primary custom-btn"
+                    [disabled]="registerForm.invalid">REGISTER</button>
+            </div>
+
+            
+        </form>
     </div>
 </div>

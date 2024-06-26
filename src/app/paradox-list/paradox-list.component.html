@@ -1,8 +1,27 @@
-<ul class="list-unstyled components">
+<!-- <ul class="list-unstyled components dropdown-menu" aria-labelledby="paradoxesDropdown">
     <li *ngFor="let paradox of paradoxes">
-        <a href="#" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a>
-        <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(paradox), 'fa-solid': isFavorite(paradox)}"
+        <a class="dropdown-item" (click)="setCurrentParadox(paradox)">{{paradox.title}}</a> -->
+        <!-- <i class="fa-star" [ngClass]="{'fa-regular': !isFavorite(paradox), 'fa-solid': isFavorite(paradox)}"
             (click)="addToFavorite(paradox)">
-        </i>
-    </li>
-</ul>
+        </i> -->
+    <!-- </li>
+</ul> -->
+
+<div class="container">
+    <div *ngFor="let group of groupedParadoxes" class="letter-group">
+      <div class="letter-title">
+        <div class="letter-circle">{{ group.letter }}</div>
+        <!-- <h3>{{ group.letter }}</h3> -->
+      </div>
+      <div class="paradoxes">
+        <div class="d-flex align-items-center" >
+          <div class="column" *ngFor="let column of splitIntoColumns(group.paradoxes, 3)">
+            <ul>
+              <li *ngFor="let paradox of column"> <a routerLink="/paradoxes/{{paradox.tech_name}}" (click)="addToHistory(paradox)">{{ paradox.title }}</a> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr> <!-- horizontal line -->
+    </div>
+  </div>

@@ -1,0 +1,10 @@
+.search-field {
+    width: 100%;
+  }
+  
+  .mat-dialog-content {
+    padding: 0 24px;
+  }
+  a:hover{
+    color: var(--pink-color) !important;
+  }

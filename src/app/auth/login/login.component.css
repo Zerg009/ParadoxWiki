@@ -1,40 +1,56 @@
-.modal {
-    display: block;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+.logo-img{
+    width: 150px; /* Adjust the width as needed */
+    height: auto;
 }
-.modal-header {
-    display: flex;
-    justify-content: end;
-    align-items: center;
+.login-text{
+    font-size: 2rem;
+    font-weight: 600;
 }
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
+.info-text{
+    color: gray;
+    font-size: 0.8rem;
 }
-
-.close {
-    color: #aaaaaa;
-    font-size: 28px;
+.form-check-input{
+    margin-top: 0;
+    width: 0.8rem;
+    height: 0.8rem;
+}
+.form-control{
+    --bs-border-radius: 1.2rem;
+    background-color: transparent;
+    color: #FFF;
+}
+.form-control::placeholder{
+    color: #FFF;
+}
+input {
+    color-scheme: dark;
+  }
+.custom-btn{
+    width: 50%;
+    background-image: linear-gradient(to right, #5170FF 40%, #FF66C4); /* Example gradient colors */
+    border-radius: 2rem;
+}
+.question-text{
+    font-size: 0.8rem;
     font-weight: bold;
-    background: none;
-    border: none;
-    cursor: pointer;
+    font-family: 'Open Sans';
 }
+.card{
+    background-color: transparent;
+    border: none;
+}
+.text-danger{
+    font-size: 0.6rem;
+    line-height:  0.8rem;
+}
+.btn{
+    border: none;
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
+}
+.btn:hover{
+    color: #A297ED;    
+}
+.adjust-higher{
+    padding-bottom: 15%;
 }

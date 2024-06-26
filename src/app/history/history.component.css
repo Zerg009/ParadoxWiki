@@ -1,0 +1,37 @@
+.number {
+    font-size: 2rem; 
+    margin-bottom: 10px; 
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-size: 1.5rem; 
+    margin-top: 10px; 
+    text-align: center;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .last-paradoxes{
+    display: flex;
+    
+  }
+  .paradox-content{ 
+    /* margin: 0 10px; */
+    /* border-right: solid 1px; */
+
+    word-wrap: break-word; /* Ensures long words break to prevent overflow */
+    overflow-wrap: break-word; /* Alternative for word-wrap, ensures long words break */
+  }
+  .border-right{
+    border-right: 1px solid #dee2e6;
+    padding-right: 25px;
+  }
+
+  .btn:hover{
+    color: #d9acdf
+  }  
+  .btn{
+    color: #fff
+  }

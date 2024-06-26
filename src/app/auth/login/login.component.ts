@@ -3,6 +3,8 @@ import { LoginForm } from '../../types/Auth';
 import { AuthService } from '../../services/auth.service';
 import { AngularDialogComponent } from '../angular-dialog/angular-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { strongPasswordValidator } from '../validators/custom-validators';
 
 @Component({
   selector: 'app-login',
@@ -15,31 +17,32 @@ export class LoginComponent {
     email: '',
     password: ''
   };
-  
-  
-  constructor(private authService : AuthService){}
-  submit() {
-    this.authService.login(this.form).subscribe({
-      next: response => {
-        this.authService.isAuthenticated = true;
-        this.authService.isShowingLogin = false;
-        const token = response.token; // Adjust according to your API response
-        console.log('Logged in!' + token);
-        this.authService.saveToken(token);
-      },
-      error: error => {
-        console.error('Authenticate error:', error);
-        this.authService.showError("Invalid email or password!", "Authentication Error");
-      }
-    });
+  loginForm: FormGroup;
 
+  constructor(private authService: AuthService, private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      rememberMe: [false]
+    });
   }
 
-  isLoading()
-  {
+  submit() {
+    if (this.loginForm.valid) {
+      this.form.email = this.loginForm.value.email;
+      this.form.password = this.loginForm.value.password;
+      this.authService.rememberMe = this.loginForm.value.rememberMe;
+      this.authService.login(this.form);
+
+      console.log(this.loginForm.value);
+      // handle form submission
+    }
+  }
+
+  isLoading() {
     return this.authService.isLoading;
   }
-  closeForm() {
-    this.authService.isShowingLogin = false;
-  }
+
 }

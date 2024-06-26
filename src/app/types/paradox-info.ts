@@ -1,4 +1,4 @@
-export class ParadoxInfo {
+export interface ParadoxInfo {
     paradox_id: number;
     title: string;
     author: string;

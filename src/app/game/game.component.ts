@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './game.component.css'
 })
 export class GameComponent {
-  @Input() currentParadox: ParadoxInfo;
+  @Input() currentParadox: ParadoxInfo | null;
 
   @ViewChild('gameContainer', { read: ViewContainerRef }) gameContainer: ViewContainerRef;
   @ViewChild('gameCanvas', { read: ElementRef<HTMLCanvasElement> }) gameCanvas: ElementRef<HTMLCanvasElement>;
@@ -85,7 +85,7 @@ export class GameComponent {
 
 
   ngAfterViewInit() {
-    console.log("Game component paradox changed: ngAfterViewInit " + this.currentParadox.tech_name);
+    //console.log("Game component paradox changed: ngAfterViewInit " + this.currentParadox?.tech_name);
     this.loadUnityGame();
 
     // this.loadMiniGame(this.currentParadox.tech_name);

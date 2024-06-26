@@ -1,38 +1,7 @@
-<div class="container-fluid h-100">
-  <div *ngIf="currentParadox == undefined" id="content" class="p-4 p-md-5 pt-5">
-    <h2 class="m-0">Bine ați venit</h2>
-    <h5 class="mb-4">la Paradox Wiki!</h5>
-    <p class="w-50">
-      Explorați misterele existenței împreună cu noi. <br>
-      Pentru a începe călătoria dumneavoastră, începeți prin selectarea unui paradox din bara laterală. <br>
-      Fie că este vorba despre Paradoxul Bunicului, Paradoxul Fermi sau alt concept care te face să te gândești, fiecare
-      oferă o perspectivă unică asupra naturii realității.
-
-      Scufundați-vă în necunoscut și dezlegați paradoxurile care pun la îndoială înțelegerea noastră despre univers.
-    </p>
-  </div>
-  <div *ngIf="currentParadox !== undefined" id="content" class="p-4 p-md-5 pt-5">
-    <h2 class="mb-4">{{currentParadox.title}}</h2>
-    <div class="game-container container-fluid">
-      <div class="row">
-        <div class="col-md-9 col-12 order-md-1">
-          <ng-container *ngIf="currentState === 'game'">
-            <app-game [currentParadox]="currentParadox"></app-game>
-          </ng-container>
-          <ng-container *ngIf="currentState === 'video'">
-            <app-videoplayer [videoName] = "currentParadox.tech_name"></app-videoplayer>
-          </ng-container>
-          <button (click)="changeState()" class="btn btn-primary mt-3">Play Game!</button>
-        </div>
-        <div class="col-md-3 col-12 order-md-2">
-          <h2>Description</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae necessitatibus qui reprehenderit!
-            Incidunt molestias nisi, sunt nemo, aliquam natus vero consectetur saepe in asperiores iure tempore dicta
-            eveniet pariatur est? Facere, consequatur minus illo exercitationem mollitia est natus voluptates, incidunt
-            eos, voluptatibus dicta. Nam tenetur dolor ex quasi est ipsa.
-          </p> 
-        </div>
-      </div>
+<div class="container custom-height">
+  <div class="row justify-content-center align-items-center content h-100 " [class.align-items-center]="alignCenter">
+    <div class="col-md-6" style="color: white;">
+      <router-outlet></router-outlet>
     </div>
   </div>
-</div>
+</div>  
